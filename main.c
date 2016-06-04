@@ -1,6 +1,6 @@
 /**
  * @file
- * @defgroup WterBall main.c
+ * @defgroup WaterBall main.c
  * @{
  * @ingroup WaterBall
  * @brief WaterBall application main file.
@@ -10,18 +10,24 @@
  * modules allowing them to perform work.
  */
  
+ #include "ble_stack.h"
  #include "bsp.h"
- 
- /**
+ #include "buttons.h"
+
+/**
  * @brief Function for main application entry.
  */
 int main(void)
 {
     LEDS_CONFIGURE(LEDS_MASK);
     LEDS_OFF(LEDS_MASK);
+    ble_stack_init();
+    buttons_init();
 
     while (true)
     {
+        ble_stack_tasks();
+        buttons_tasks();
     }
 }
 

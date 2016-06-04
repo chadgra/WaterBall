@@ -7,9 +7,10 @@
 
   <Targets>
     <Target>
-      <TargetName>Target 1</TargetName>
+      <TargetName>nrf51422_xxac</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>nRF51422_xxAC</Device>
@@ -46,14 +47,14 @@
             <NotGenerated>0</NotGenerated>
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
-          <OutputDirectory>.\</OutputDirectory>
+          <OutputDirectory>.\Objects\</OutputDirectory>
           <OutputName>WaterBall</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
+          <CreateHexFile>1</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
-          <ListingPath>.\</ListingPath>
+          <ListingPath>.\Listings\</ListingPath>
           <HexFormatSelection>1</HexFormatSelection>
           <Merge32K>0</Merge32K>
           <CreateBatchFile>0</CreateBatchFile>
@@ -131,12 +132,12 @@
             <UseExternalTool>0</UseExternalTool>
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>0</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <Capability>1</Capability>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -185,7 +186,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -255,27 +256,27 @@
                 <Size>0x0</Size>
               </XRAM>
               <OCR_RVCT1>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT1>
               <OCR_RVCT2>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT2>
               <OCR_RVCT3>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x40000</Size>
+                <StartAddress>0x1b000</StartAddress>
+                <Size>0x25000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
-                <Type>0</Type>
+                <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
                 <Size>0x0</Size>
               </OCR_RVCT5>
@@ -296,8 +297,8 @@
               </OCR_RVCT8>
               <OCR_RVCT9>
                 <Type>0</Type>
-                <StartAddress>0x20000000</StartAddress>
-                <Size>0x8000</Size>
+                <StartAddress>0x20002670</StartAddress>
+                <Size>0x5990</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -321,7 +322,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -329,9 +330,9 @@
             <vShortWch>1</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>BSP_DEFINES_ONLY BLE_STACK_SUPPORT_REQD S130 BOARD_PCA10028 SOFTDEVICE_PRESENT NRF51 DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>.;.\Config;.\nRF5_SDK\components\ble\common;.\nRF5_SDK\components\drivers_nrf\common;.\nRF5_SDK\components\drivers_nrf\delay;.\nRF5_SDK\components\drivers_nrf\gpiote;.\nRF5_SDK\components\drivers_nrf\hal;.\nRF5_SDK\components\libraries\button;.\nRF5_SDK\components\libraries\timer;.\nRF5_SDK\components\libraries\util;.\nRF5_SDK\components\softdevice\common\softdevice_handler;.\nRF5_SDK\components\softdevice\s130\headers;.\nRF5_SDK\examples\bsp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -346,7 +347,7 @@
             <useXO>0</useXO>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>BSP_DEFINES_ONLY BLE_STACK_SUPPORT_REQD S130 BOARD_PCA10028 SOFTDEVICE_PRESENT NRF51 DEBUG</Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
             </VariousControls>
@@ -372,10 +373,139 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Source Group 1</GroupName>
+          <GroupName>Application</GroupName>
+          <Files>
+            <File>
+              <FileName>buttons.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\buttons.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>ble_stack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ble_stack.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>nRF_BLE</GroupName>
+          <Files>
+            <File>
+              <FileName>ble_srv_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\ble\common\ble_srv_common.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>nRF_Drivers</GroupName>
+          <Files>
+            <File>
+              <FileName>nrf_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\drivers_nrf\delay\nrf_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_common.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\drivers_nrf\common\nrf_drv_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_gpiote.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\drivers_nrf\gpiote\nrf_drv_gpiote.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>nRF_Libraries</GroupName>
+          <Files>
+            <File>
+              <FileName>app_button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\button\app_button.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_error.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\util\app_error.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_error_weak.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\util\app_error_weak.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\timer\app_timer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>nRF_SoftDevice</GroupName>
+          <Files>
+            <File>
+              <FileName>softdevice_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\softdevice\common\softdevice_handler\softdevice_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>s130_nrf51_2.0.0_licence_agreement.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\nRF5_SDK\components\softdevice\s130\doc\s130_nrf51_2.0.0_licence_agreement.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::Device</GroupName>
         </Group>
       </Groups>
     </Target>
   </Targets>
+
+  <RTE>
+    <apis/>
+    <components>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="4.3.0" condition="Cortex-M Device">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="4.5.0"/>
+        <targetInfos>
+          <targetInfo name="nrf51422_xxac"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.5.0" condition="nRF51 Series CMSIS Device">
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.5.0"/>
+        <targetInfos>
+          <targetInfo name="nrf51422_xxac"/>
+        </targetInfos>
+      </component>
+    </components>
+    <files>
+      <file attr="config" category="source" condition="ARM Compiler" name="Device\Source\arm\arm_startup_nrf51.s" version="8.5.0">
+        <instance index="0">RTE\Device\nRF51422_xxAC\arm_startup_nrf51.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.5.0" condition="nRF51 Series CMSIS Device"/>
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.5.0"/>
+        <targetInfos>
+          <targetInfo name="nrf51422_xxac"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="Device\Source\system_nrf51.c" version="8.5.0">
+        <instance index="0">RTE\Device\nRF51422_xxAC\system_nrf51.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="NordicSemiconductor" Cversion="8.5.0" condition="nRF51 Series CMSIS Device"/>
+        <package license="License\license.txt" name="nRF_DeviceFamilyPack" schemaVersion="1.3" url="http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/" vendor="NordicSemiconductor" version="8.5.0"/>
+        <targetInfos>
+          <targetInfo name="nrf51422_xxac"/>
+        </targetInfos>
+      </file>
+    </files>
+  </RTE>
 
 </Project>
