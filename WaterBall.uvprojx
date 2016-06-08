@@ -376,19 +376,34 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
+              <FileName>ble_stack.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ble_stack.c</FilePath>
+            </File>
+            <File>
               <FileName>buttons.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\buttons.c</FilePath>
             </File>
             <File>
+              <FileName>game.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game.c</FilePath>
+            </File>
+            <File>
+              <FileName>game_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>game_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_server.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>ble_stack.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\ble_stack.c</FilePath>
             </File>
           </Files>
         </Group>
