@@ -223,8 +223,8 @@ static void game_server_read_game_time(ble_evt_t * p_ble_evt)
 
 static void game_server_write_client_score(ble_evt_t * p_ble_evt)
 {
-    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    uint32_t score = *write->data;
+//    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+//    uint32_t score = *write->data;
     game_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
