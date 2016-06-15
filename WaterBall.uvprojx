@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define>BSP_DEFINES_ONLY BLE_STACK_SUPPORT_REQD S130 BOARD_PCA10028 SOFTDEVICE_PRESENT NRF51 DEBUG</Define>
               <Undefine></Undefine>
-              <IncludePath>.;.\Config;.\nRF5_SDK\components\ble\common;.\nRF5_SDK\components\drivers_nrf\common;.\nRF5_SDK\components\drivers_nrf\delay;.\nRF5_SDK\components\drivers_nrf\gpiote;.\nRF5_SDK\components\drivers_nrf\hal;.\nRF5_SDK\components\libraries\button;.\nRF5_SDK\components\libraries\timer;.\nRF5_SDK\components\libraries\util;.\nRF5_SDK\components\softdevice\common\softdevice_handler;.\nRF5_SDK\components\softdevice\s130\headers;.\nRF5_SDK\examples\bsp</IncludePath>
+              <IncludePath>.;.\Config;.\nRF5_SDK\components\ble\common;.\nRF5_SDK\components\drivers_nrf\clock;.\nRF5_SDK\components\drivers_nrf\common;.\nRF5_SDK\components\drivers_nrf\delay;.\nRF5_SDK\components\drivers_nrf\gpiote;.\nRF5_SDK\components\drivers_nrf\hal;.\nRF5_SDK\components\drivers_nrf\uart;.\nRF5_SDK\components\libraries\button;.\nRF5_SDK\components\libraries\fifo;.\nRF5_SDK\components\libraries\timer;.\nRF5_SDK\components\libraries\uart;.\nRF5_SDK\components\libraries\util;.\nRF5_SDK\components\softdevice\common\softdevice_handler;.\nRF5_SDK\components\softdevice\s130\headers;.\nRF5_SDK\examples\bsp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -386,6 +386,11 @@
               <FilePath>.\buttons.c</FilePath>
             </File>
             <File>
+              <FileName>clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\clock.c</FilePath>
+            </File>
+            <File>
               <FileName>game.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game.c</FilePath>
@@ -404,6 +409,11 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\serial.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -426,6 +436,11 @@
               <FilePath>.\nRF5_SDK\components\drivers_nrf\delay\nrf_delay.c</FilePath>
             </File>
             <File>
+              <FileName>nrf_drv_clock.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\drivers_nrf\clock\nrf_drv_clock.c</FilePath>
+            </File>
+            <File>
               <FileName>nrf_drv_common.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\nRF5_SDK\components\drivers_nrf\common\nrf_drv_common.c</FilePath>
@@ -434,6 +449,11 @@
               <FileName>nrf_drv_gpiote.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\nRF5_SDK\components\drivers_nrf\gpiote\nrf_drv_gpiote.c</FilePath>
+            </File>
+            <File>
+              <FileName>nrf_drv_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\drivers_nrf\uart\nrf_drv_uart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -456,9 +476,24 @@
               <FilePath>.\nRF5_SDK\components\libraries\util\app_error_weak.c</FilePath>
             </File>
             <File>
+              <FileName>app_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\fifo\app_fifo.c</FilePath>
+            </File>
+            <File>
               <FileName>app_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\nRF5_SDK\components\libraries\timer\app_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_uart_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\uart\app_uart_fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_util_platform.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\libraries\util\app_util_platform.c</FilePath>
             </File>
           </Files>
         </Group>

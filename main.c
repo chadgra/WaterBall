@@ -13,6 +13,8 @@
  #include "ble_stack.h"
  #include "bsp.h"
  #include "buttons.h"
+ #include "clock.h"
+ #include "serial.h"
 
 /**
  * @brief Function for main application entry.
@@ -23,11 +25,15 @@ int main(void)
     LEDS_OFF(LEDS_MASK);
     ble_stack_init();
     buttons_init();
+    clock_init();
+    serial_init();
 
     while (true)
     {
         ble_stack_tasks();
         buttons_tasks();
+        clock_tasks();
+        serial_tasks();
     }
 }
 
