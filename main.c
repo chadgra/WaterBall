@@ -14,6 +14,7 @@
  #include "bsp.h"
  #include "buttons.h"
  #include "clock.h"
+ #include "game_engine.h"
  #include "serial.h"
 
 /**
@@ -26,6 +27,7 @@ int main(void)
     ble_stack_init();
     buttons_init();
     clock_init();
+    game_engine_init();
     serial_init();
 
     while (true)
@@ -33,6 +35,7 @@ int main(void)
         ble_stack_tasks();
         buttons_tasks();
         clock_tasks();
+        game_engine_tasks();
         serial_tasks();
     }
 }

@@ -10,12 +10,22 @@
 #include "clock.h"
 #include "nrf_drv_clock.h"
 
+APP_TIMER_DEF(m_loop_timer_id);
+
+static void clock_handler(void * p_context)
+{
+}
+
 
 void clock_init(void)
 {
     // Initialize the low frequency clock.
     APP_ERROR_CHECK(nrf_drv_clock_init());
     nrf_drv_clock_lfclk_request(NULL);
+
+    // Create timers.
+    APP_ERROR_CHECK(app_timer_create(&m_loop_timer_id, APP_TIMER_MODE_REPEATED, clock_handler));
+    APP_ERROR_CHECK(app_timer_start(m_loop_timer_id, CLOCK_S_IN_TICKS(2), NULL));
 }
 
 
@@ -32,9 +42,15 @@ uint32_t clock_get_ticks(void)
 }
 
 
-bool clock_ticks_have_passed(uint32_t start, uint32_t ticks_target)
+bool clock_ticks_have_passed(uint32_t start, uint32_t ticks)
 {
-    return clock_ticks_since(start) >= ticks_target;
+    return clock_ticks_since(start) >= ticks;
+}
+
+
+bool clock_ms_have_passed(uint32_t start, uint32_t ms)
+{
+    return clock_ms_since(start) >= ms;
 }
 
 

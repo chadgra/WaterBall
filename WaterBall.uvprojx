@@ -401,6 +401,11 @@
               <FilePath>.\game_client.c</FilePath>
             </File>
             <File>
+              <FileName>game_engine.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game_engine.c</FilePath>
+            </File>
+            <File>
               <FileName>game_server.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_server.c</FilePath>

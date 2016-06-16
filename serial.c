@@ -129,6 +129,9 @@ bool serial_try_open(void)
                                   serial_evt_handler,
                                   APP_IRQ_PRIORITY_LOW));
 
+
+    // We aren't using CTS so make sure it has a pulldown.
+    nrf_gpio_cfg_sense_input(CTS_PIN_NUMBER, NRF_GPIO_PIN_PULLDOWN, NRF_GPIO_PIN_SENSE_HIGH);
     m_serial_state = SERIAL_STATE_OPENED;
     return true;
 }

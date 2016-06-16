@@ -39,7 +39,7 @@ void clock_tasks(void);
 uint32_t clock_get_ticks(void);
 
 /**
- * @brief   Test to see if 'ticks_target' ticks have passed since the 'start'.
+ * @brief   Test to see if 'ticks' ticks have passed since the 'start'.
  *
  * @param[in]   start           The time (also in ticks) to start measuring from - obtained from "clock_get_ticks".
  * @param[in]   ticks           The number of ticks that we are waiting to have passed.
@@ -47,6 +47,16 @@ uint32_t clock_get_ticks(void);
  * @retval      True if "ticks" have passed since the start.
  */
 bool clock_ticks_have_passed(uint32_t start, uint32_t ticks);
+
+/**
+ * @brief   Test to see if 'ms' milliseconds have passed since the 'start'.
+ *
+ * @param[in]   start           The time (in ticks) to start measuring from - obtained from "clock_get_ticks".
+ * @param[in]   ms              The number of ms that we are waiting to have passed.
+ *
+ * @retval      True if "ticks" have passed since the start.
+ */
+bool clock_ms_have_passed(uint32_t start, uint32_t ms);
 
 /**
  * @brief   Get the number of milliseconds that still remain until ticks have passed counting from start.

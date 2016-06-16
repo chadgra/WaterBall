@@ -9,11 +9,12 @@
 #include "app_error.h"
 #include "bsp.h"
 #include "buttons.h"
+#include "game_engine.h"
 
 static buttons_state_t  m_buttons_state;
 static app_button_cfg_t m_buttons[] =
 {
-    { BUTTON_1, ACTIVE_STATE, PULL_CONFIGURATION, button_event_handler },
+    { BUTTON_1, ACTIVE_STATE, PULL_CONFIGURATION, game_engine_event_handler },
     { BUTTON_2, ACTIVE_STATE, PULL_CONFIGURATION, button_event_handler },
     { BUTTON_3, ACTIVE_STATE, PULL_CONFIGURATION, button_event_handler },
     { BUTTON_4, ACTIVE_STATE, PULL_CONFIGURATION, button_event_handler }
