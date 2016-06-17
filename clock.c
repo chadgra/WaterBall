@@ -1,9 +1,9 @@
 /**
  * @file
- * @defgroup Appaloosa clock.h
+ * @defgroup WaterBall clock.h
  * @{
- * @ingroup Appaloosa
- * @brief Appaloosa clock module.
+ * @ingroup WaterBall
+ * @brief WaterBall clock module.
  */
 
 #include "ble_stack.h"

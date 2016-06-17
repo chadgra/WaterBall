@@ -376,6 +376,11 @@
           <GroupName>Application</GroupName>
           <Files>
             <File>
+              <FileName>advertise.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\advertise.c</FilePath>
+            </File>
+            <File>
               <FileName>ble_stack.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\ble_stack.c</FilePath>
@@ -420,11 +425,21 @@
               <FileType>1</FileType>
               <FilePath>.\serial.c</FilePath>
             </File>
+            <File>
+              <FileName>status.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\status.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>nRF_BLE</GroupName>
           <Files>
+            <File>
+              <FileName>ble_advdata.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\nRF5_SDK\components\ble\common\ble_advdata.c</FilePath>
+            </File>
             <File>
               <FileName>ble_srv_common.c</FileName>
               <FileType>1</FileType>
