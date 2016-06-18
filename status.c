@@ -7,6 +7,7 @@
  */
 
 #include "bsp.h"
+#include "clock.h"
 #include "status.h"
 
 static uint32_t m_status = 0;
@@ -21,20 +22,43 @@ void status_init(void)
 
 void status_tasks(void)
 {
+    static uint32_t advertising_tick_start = 0;
+    static uint32_t discovering_tick_start = 0;
+    static uint32_t connecting_tick_start = 0;
+
     if (IS_ADVERTISING)
     {
-        LEDS_ON(BSP_LED_0_MASK);
+        if (clock_ms_have_passed(advertising_tick_start, 1000))
+        {
+            advertising_tick_start = clock_get_ticks();
+            LEDS_INVERT(BSP_LED_0_MASK);
+        }
     }
-    else
+
+    if (IS_DISCOVERING)
     {
-        LEDS_OFF(BSP_LED_0_MASK);
+        if (clock_ms_have_passed(discovering_tick_start, 500))
+        {
+            discovering_tick_start = clock_get_ticks();
+            LEDS_INVERT(BSP_LED_0_MASK);
+        }
+    }
+
+    if (IS_CONNECTING)
+    {
+        if (clock_ms_have_passed(connecting_tick_start, 100))
+        {
+            connecting_tick_start = clock_get_ticks();
+            LEDS_INVERT(BSP_LED_0_MASK);
+        }
     }
 
     if (IS_CONNECTED)
     {
-        LEDS_ON(BSP_LED_1_MASK);
+        LEDS_ON(BSP_LED_0_MASK);
     }
-    else
+
+    if (IS_IDLE)
     {
         LEDS_OFF(BSP_LED_1_MASK);
     }

@@ -13,6 +13,7 @@
 
 #include "app_button.h"
 #include "app_timer.h"
+#include "bsp.h"
 #include "nrf_soc.h"
 
 #define ACTIVE_STATE                APP_BUTTON_ACTIVE_LOW
@@ -58,11 +59,11 @@ void buttons_tasks(void);
 /**
  * @brief   Function fo find the state of the button.
  *
- * @param[in]   index       The index of the button in the button structure.
+ * @param[in]   pin_no      The pin number you want to know is pushed.
  *
  * @retval      True if pushed.
  */
-bool buttons_is_pushed(uint32_t index);
+bool buttons_is_pushed(uint32_t pin_no);
 
 #endif //BUTTONS_H__
 

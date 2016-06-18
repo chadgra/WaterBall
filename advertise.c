@@ -10,6 +10,7 @@
 #include "app_error.h"
 #include "ble_advdata.h"
 #include "ble_stack.h"
+#include "buttons.h"
 #include "game.h"
 #include "status.h"
 
@@ -27,15 +28,17 @@ void advertise_tasks(void)
     switch (m_advertise_state)
     {
         case ADVERTISE_STATE_INIT:
-            // Start advertising if Button 1 is held down on startup.
-//            if (m_start_on_idle && IS_IDLE && !m_pause_idle_start)
-            {
-                advertise_advertise();
-            }
-
             m_advertise_state = ADVERTISE_STATE_READY;
             break;
         case ADVERTISE_STATE_READY:
+            if (buttons_is_pushed(BUTTON_1))
+            {
+                advertise_advertise();
+                m_advertise_state = ADVERTISE_ADVERTISING;
+            }
+
+            break;
+        case ADVERTISE_ADVERTISING:
             break;
         case ADVERTISE_STATE_ERROR:
             break;
@@ -93,8 +96,8 @@ bool advertise_advertise(void)
     ble_gap_adv_params_t adv_settings = { 0 };
     adv_settings.type = BLE_GAP_ADV_TYPE_ADV_IND;
     adv_settings.fp = BLE_GAP_ADV_FP_ANY;
-    adv_settings.interval = APP_ADV_INTERVAL;
-    adv_settings.timeout = APP_ADV_TIMEOUT_IN_SECONDS;
+    adv_settings.interval = MSEC_TO_UNITS(25, UNIT_0_625_MS);
+    adv_settings.timeout = BLE_GAP_ADV_TIMEOUT_GENERAL_UNLIMITED;
 
     APP_ERROR_CHECK(sd_ble_gap_adv_start(&adv_settings));
     status_set(STATUS_ADVERTISING);
@@ -132,3 +135,5 @@ static void advertise_set_data(void)
 
     APP_ERROR_CHECK(ble_advdata_set(&advdata, NULL));
 }
+
+/** @} */
