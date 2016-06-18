@@ -60,7 +60,7 @@ void status_tasks(void)
 
     if (IS_IDLE)
     {
-        LEDS_OFF(BSP_LED_1_MASK);
+        LEDS_OFF(BSP_LED_0_MASK);
     }
 }
 

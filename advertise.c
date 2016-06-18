@@ -29,16 +29,20 @@ void advertise_tasks(void)
     {
         case ADVERTISE_STATE_INIT:
             m_advertise_state = ADVERTISE_STATE_READY;
-            break;
-        case ADVERTISE_STATE_READY:
             if (buttons_is_pushed(BUTTON_1))
             {
-                advertise_advertise();
-                m_advertise_state = ADVERTISE_ADVERTISING;
+                m_advertise_state = ADVERTISE_STATE_ADVERTISING;
             }
 
             break;
-        case ADVERTISE_ADVERTISING:
+        case ADVERTISE_STATE_READY:
+            break;
+        case ADVERTISE_STATE_ADVERTISING:
+            if (IS_IDLE)
+            {
+                advertise_advertise();
+            }
+
             break;
         case ADVERTISE_STATE_ERROR:
             break;

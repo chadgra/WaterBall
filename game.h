@@ -19,7 +19,7 @@
 #define MAX_CONNECTING_CYCLES                       (8)
 #define GAME_MAX_TX_BYTES                           (GATT_MTU_SIZE_DEFAULT - sizeof(uint8_t) - sizeof(uint16_t))    /**< The opcode and handle take up a few bytes of the MTU. */
 
-#define GAME_BASE_UUID_128                          { 0x11, 0x9A, 0xF0, 0x11, 0xA1, 0x09, 0x2F, 0xF4, 0xE1, 0x00, 0x6A, 0x11, 0xBA, 0xE9, 0xA7, 0x44 }
+#define GAME_BASE_UUID_128                          { 0x12, 0x9A, 0xF0, 0x11, 0xA1, 0x09, 0x2F, 0xF4, 0xE1, 0x00, 0x6A, 0x11, 0xBA, 0xE9, 0xA7, 0x44 }
 #define GAME_BASE_UUID                              (0xE9BA)
 #define GAME_SERVER_SCORE_UUID                      (0x15C0)
 #define GAME_CLIENT_SCORE_UUID                      (0x25C0)

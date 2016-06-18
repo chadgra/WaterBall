@@ -8,6 +8,7 @@
 
 #include "app_util.h"
 #include "buttons.h"
+#include "connect.h"
 #include "discovery.h"
 #include "game.h"
 #include "status.h"
@@ -27,15 +28,20 @@ void discovery_tasks(void)
     {
         case DISCOVERY_STATE_INIT:
             m_discovery_state = DISCOVERY_STATE_READY;
-            break;
-        case DISCOVERY_STATE_READY:
             if (!buttons_is_pushed(BUTTON_1))
             {
-                discovery_discovery();
-                m_discovery_state = DISCOVERY_DISCOVERING;
+                m_discovery_state = DISCOVERY_STATE_DISCOVERING;
             }
+
             break;
-        case DISCOVERY_DISCOVERING:
+        case DISCOVERY_STATE_READY:
+            break;
+        case DISCOVERY_STATE_DISCOVERING:
+            if (IS_IDLE)
+            {
+                discovery_discovery();
+            }
+
             break;
         case DISCOVERY_STATE_ERROR:
             break;        
@@ -54,7 +60,7 @@ void discovery_on_ble_evt(ble_evt_t const * p_scan_evt)
         case BLE_GAP_EVT_ADV_REPORT:
         {
             char game_service_uuid[] = GAME_BASE_UUID_128;
-            ble_gap_evt_adv_report_t const * adv_report = &p_scan_evt->evt.gap_evt.params.adv_report;
+            ble_gap_evt_adv_report_t * adv_report = (ble_gap_evt_adv_report_t *)&p_scan_evt->evt.gap_evt.params.adv_report;
             char * p_service_start = memchr(adv_report->data, game_service_uuid[0], adv_report->dlen);
             if (NULL != p_service_start)
             {
@@ -62,7 +68,7 @@ void discovery_on_ble_evt(ble_evt_t const * p_scan_evt)
                 if (0 == result)
                 {
                     // This device has the service, try to connect.
-                    status_set(STATUS_CONNECTED);
+                    connect_connect(&(adv_report->peer_addr));
                 }
             }
 

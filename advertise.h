@@ -22,7 +22,7 @@ typedef enum
 {
     ADVERTISE_STATE_INIT,               /**< Initialize Advertise state. */
     ADVERTISE_STATE_READY,              /**< Advertise state ready. */
-    ADVERTISE_ADVERTISING,              /**< Advertising started. */
+    ADVERTISE_STATE_ADVERTISING,        /**< Advertising started. */
     ADVERTISE_STATE_ERROR               /**< Throw an error message if it occurred in the interrupt handler. */
 } advertise_state_t;
 

@@ -25,7 +25,7 @@ typedef enum
 {
     DISCOVERY_STATE_INIT,               /**< Initialize Discovery state. */
     DISCOVERY_STATE_READY,              /**< Discovery state ready. */
-    DISCOVERY_DISCOVERING,              /**< Discovery has been started. */
+    DISCOVERY_STATE_DISCOVERING,        /**< Discovery has been started. */
     DISCOVERY_STATE_ERROR               /**< Throw an error message if it occurred in the interrupt handler. */
 } discovery_state_t;
 

@@ -396,6 +396,11 @@
               <FilePath>.\clock.c</FilePath>
             </File>
             <File>
+              <FileName>connect.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\connect.c</FilePath>
+            </File>
+            <File>
               <FileName>discovery.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\discovery.c</FilePath>

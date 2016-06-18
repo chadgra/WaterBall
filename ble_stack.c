@@ -7,11 +7,15 @@
  */
 
 #include <stdint.h>
+
+#include "advertise.h"
 #include "app_timer.h"
 #include "ble_gap.h"
 #include "ble_srv_common.h"
 #include "ble_stack.h"
 #include "bsp.h"
+#include "connect.h"
+#include "discovery.h"
 #include "softdevice_handler.h"
 
 static ble_stack_state_t                       m_ble_stack_state;
@@ -19,6 +23,9 @@ static ble_stack_state_t                       m_ble_stack_state;
 
 static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
+    connect_on_ble_evt(p_ble_evt);
+    advertise_on_ble_evt(p_ble_evt);
+    discovery_on_ble_evt(p_ble_evt);
 }
 
 

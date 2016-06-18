@@ -15,6 +15,7 @@
  #include "bsp.h"
  #include "buttons.h"
  #include "clock.h"
+ #include "connect.h"
  #include "discovery.h"
  #include "game.h"
  #include "game_engine.h"
@@ -35,6 +36,7 @@ int main(void)
     game_init();
     advertise_init();
     discovery_init();
+    connect_init();
 
     while (true)
     {
@@ -47,6 +49,7 @@ int main(void)
         game_tasks();
         advertise_tasks();
         discovery_tasks();
+        connect_tasks();
     }
 }
 
