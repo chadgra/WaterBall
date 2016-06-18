@@ -16,6 +16,7 @@
 #include "bsp.h"
 #include "connect.h"
 #include "discovery.h"
+#include "service.h"
 #include "softdevice_handler.h"
 
 static ble_stack_state_t                       m_ble_stack_state;
@@ -23,6 +24,7 @@ static ble_stack_state_t                       m_ble_stack_state;
 
 static void ble_evt_dispatch(ble_evt_t * p_ble_evt)
 {
+    service_on_ble_evt(p_ble_evt);
     connect_on_ble_evt(p_ble_evt);
     advertise_on_ble_evt(p_ble_evt);
     discovery_on_ble_evt(p_ble_evt);
@@ -50,7 +52,7 @@ void ble_stack_init(void)
                                                          PERIPHERAL_LINK_COUNT,
                                                          &ble_enable_params));
 
-    ble_enable_params.gatts_enable_params.service_changed = 1;
+    ble_enable_params.gatts_enable_params.service_changed = 0;
 
     // Change the number of uuids from the minimum (1) to the default (10);
     ble_enable_params.common_enable_params.vs_uuid_count = BLE_UUID_VS_COUNT_DEFAULT;

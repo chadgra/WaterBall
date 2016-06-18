@@ -406,24 +406,9 @@
               <FilePath>.\discovery.c</FilePath>
             </File>
             <File>
-              <FileName>game.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game.c</FilePath>
-            </File>
-            <File>
-              <FileName>game_client.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game_client.c</FilePath>
-            </File>
-            <File>
               <FileName>game_engine.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_engine.c</FilePath>
-            </File>
-            <File>
-              <FileName>game_server.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game_server.c</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -439,6 +424,21 @@
               <FileName>status.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\status.c</FilePath>
+            </File>
+            <File>
+              <FileName>service.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\service.c</FilePath>
+            </File>
+            <File>
+              <FileName>service_client.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\service_client.c</FilePath>
+            </File>
+            <File>
+              <FileName>service_server.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\service_server.c</FilePath>
             </File>
           </Files>
         </Group>

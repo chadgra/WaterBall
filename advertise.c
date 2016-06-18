@@ -11,7 +11,7 @@
 #include "ble_advdata.h"
 #include "ble_stack.h"
 #include "buttons.h"
-#include "game.h"
+#include "service.h"
 #include "status.h"
 
 
@@ -132,7 +132,7 @@ static void advertise_set_data(void)
 
     // ServicesCompleteListUuid128.
     ble_uuid_t uuid;
-    uuid.uuid = GAME_BASE_UUID;
+    uuid.uuid = SERVICE_BASE_UUID;
     uuid.type = BLE_UUID_TYPE_VENDOR_BEGIN;
     advdata.uuids_complete.uuid_cnt = 1;
     advdata.uuids_complete.p_uuids = &uuid;

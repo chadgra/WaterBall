@@ -1,6 +1,6 @@
 /**
  * @file
- * @defgroup WaterBall game_server.h
+ * @defgroup WaterBall service_server.h
  * @{
  * @ingroup WaterBall
  * @brief WaterBall game server module.
@@ -10,27 +10,27 @@
 #include "app_util_platform.h"
 #include "ble_hci.h"
 #include "ble_srv_common.h"
-#include "game.h"
-#include "game_server.h"
+#include "service.h"
+#include "service_server.h"
 #include "sdk_common.h"
 
 #define NUM_CHARACTERISTICS             (sizeof(m_characteristics) / sizeof(m_characteristics[0]))
 
-static game_server_state_t  m_game_server_state;
+static service_server_state_t  m_service_server_state;
 static uint16_t             m_service_handle;
 static uint16_t             m_conn_handle;
-static game_info_t          m_info = { 0 };
+static service_info_t       m_info = { 0 };
 
 
-static game_server_characteristic_t m_characteristics[] =
+static service_server_characteristic_t m_characteristics[] =
 {
-    { GAME_UUID(GAME_SERVER_SCORE_UUID),    game_server_read_server_score,  NULL,                           &m_info.server_score_handle,    &m_info.server_score_config_handle, PROPERTY_READ | PROPERTY_INDICATE },
-    { GAME_UUID(GAME_CLIENT_SCORE_UUID),    NULL,                           game_server_write_client_score, &m_info.client_score_handle,    NULL,                               PROPERTY_WRITE },
-    { GAME_UUID(GAME_TIME_UUID),            game_server_read_game_time,     NULL,                           &m_info.game_time_handle,       &m_info.game_time_config_handle,    PROPERTY_READ | PROPERTY_INDICATE }
+    { SERVICE_UUID(SERVICE_SERVER_SCORE_UUID),    service_server_read_server_score,  NULL,                           &m_info.server_score_handle,    &m_info.server_score_config_handle, PROPERTY_READ | PROPERTY_INDICATE },
+    { SERVICE_UUID(SERVICE_CLIENT_SCORE_UUID),    NULL,                           service_server_write_client_score, &m_info.client_score_handle,    NULL,                               PROPERTY_WRITE },
+    { SERVICE_UUID(SERVICE_TIME_UUID),            service_server_read_game_time,     NULL,                           &m_info.game_time_handle,       &m_info.game_time_config_handle,    PROPERTY_READ | PROPERTY_INDICATE }
 };
 
 
-void game_server_on_ble_evt(ble_evt_t * p_ble_evt)
+void service_server_on_ble_evt(ble_evt_t * p_ble_evt)
 {
     switch (p_ble_evt->header.evt_id)
     {
@@ -42,7 +42,7 @@ void game_server_on_ble_evt(ble_evt_t * p_ble_evt)
         case BLE_GAP_EVT_DISCONNECTED:
         {
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
-            m_game_server_state = GAME_SERVER_STATE_READY;
+            m_service_server_state = SERVICE_SERVER_STATE_READY;
             break;
         }
         case BLE_GATTS_EVT_RW_AUTHORIZE_REQUEST:
@@ -50,7 +50,7 @@ void game_server_on_ble_evt(ble_evt_t * p_ble_evt)
             ble_gatts_evt_rw_authorize_request_t * auth = &p_ble_evt->evt.gatts_evt.params.authorize_request;
             if (BLE_GATTS_AUTHORIZE_TYPE_READ == auth->type)
             {
-                game_server_characteristic_t *  characteristic = game_server_get_characteristic(auth->request.read.uuid);
+                service_server_characteristic_t *  characteristic = service_server_get_characteristic(auth->request.read.uuid);
                 if ((NULL == characteristic) || (NULL == characteristic->read_callback))
                 {
                     break;
@@ -61,7 +61,7 @@ void game_server_on_ble_evt(ble_evt_t * p_ble_evt)
 
             if (BLE_GATTS_AUTHORIZE_TYPE_WRITE == auth->type)
             {
-                game_server_characteristic_t *  characteristic = game_server_get_characteristic(auth->request.write.uuid);
+                service_server_characteristic_t *  characteristic = service_server_get_characteristic(auth->request.write.uuid);
                 if ((NULL == characteristic) || (NULL == characteristic->write_callback))
                 {
                     break;
@@ -97,12 +97,12 @@ void game_server_on_ble_evt(ble_evt_t * p_ble_evt)
 }
 
 
-void game_server_init(void)
+void service_server_init(void)
 {
     ble_uuid_t    service_uuid;
-    ble_uuid128_t base_uuid = GAME_BASE_UUID_128;
+    ble_uuid128_t base_uuid = SERVICE_BASE_UUID_128;
 
-    service_uuid.uuid = GAME_BASE_UUID;
+    service_uuid.uuid = SERVICE_BASE_UUID;
     APP_ERROR_CHECK(sd_ble_uuid_vs_add(&base_uuid, &service_uuid.type));
 
     m_conn_handle = BLE_CONN_HANDLE_INVALID;
@@ -112,48 +112,48 @@ void game_server_init(void)
                                              &service_uuid,
                                              &m_service_handle));
 
-    game_server_characteristic_t * characteristic = &m_characteristics[0];
+    service_server_characteristic_t * characteristic = &m_characteristics[0];
     for (int i = 0; i < NUM_CHARACTERISTICS; i++)
     {
-        game_server_characteristic_add(characteristic++);
+        service_server_characteristic_add(characteristic++);
     }
 
-    m_game_server_state = GAME_SERVER_STATE_INIT;
+    m_service_server_state = SERVICE_SERVER_STATE_INIT;
 }
 
 
-void game_server_tasks(void)
+void service_server_tasks(void)
 {
     static int cycle_count = 0;
 
-    switch (m_game_server_state)
+    switch (m_service_server_state)
     {
-        case GAME_SERVER_STATE_INIT:
+        case SERVICE_SERVER_STATE_INIT:
         {
-            m_game_server_state = GAME_SERVER_STATE_READY;
+            m_service_server_state = SERVICE_SERVER_STATE_READY;
             break;
         }
-        case GAME_SERVER_STATE_READY:
+        case SERVICE_SERVER_STATE_READY:
         {
             cycle_count = 0;
             break;
         }
-        case GAME_SERVER_STATE_CONNECTING:
+        case SERVICE_SERVER_STATE_CONNECTING:
         {
             // We don't want to get stuck in this state forever.
             cycle_count++;
             if (MAX_CONNECTING_CYCLES < cycle_count)
             {
-                m_game_server_state = GAME_SERVER_STATE_READY;
+                m_service_server_state = SERVICE_SERVER_STATE_READY;
             }
 
             break;
         }
-        case GAME_SERVER_STATE_CONNECTED:
+        case SERVICE_SERVER_STATE_CONNECTED:
         {
             break;
         }
-        case GAME_SERVER_STATE_ERROR:
+        case SERVICE_SERVER_STATE_ERROR:
         {
             break;
         }
@@ -165,13 +165,13 @@ void game_server_tasks(void)
 }
 
 
-bool game_server_is_connected(void)
+bool service_server_is_connected(void)
 {
-    return m_game_server_state == GAME_SERVER_STATE_CONNECTED;
+    return m_service_server_state == SERVICE_SERVER_STATE_CONNECTED;
 }
 
 
-static void game_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len, void * p_value)
+static void service_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len, void * p_value)
 {
     if (m_conn_handle == BLE_CONN_HANDLE_INVALID)
     {
@@ -193,43 +193,43 @@ static void game_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len, vo
 }
 
 
-void game_server_indicate_server_score(uint32_t score)
+void service_server_indicate_server_score(uint32_t score)
 {
-    game_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.server_score_handle, sizeof(score), &score);
+    service_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.server_score_handle, sizeof(score), &score);
 }
 
 
-void game_server_indicate_game_time(uint32_t ms_remaining)
+void service_server_indicate_game_time(uint32_t ms_remaining)
 {
-    game_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.game_time_handle, sizeof(ms_remaining), &ms_remaining);
+    service_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.game_time_handle, sizeof(ms_remaining), &ms_remaining);
 }
 
 
-static void game_server_read_server_score(ble_evt_t * p_ble_evt)
+static void service_server_read_server_score(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
     uint32_t score = 0;
-    game_server_read_request_response(read->offset, sizeof(score), &score);
+    service_server_read_request_response(read->offset, sizeof(score), &score);
 }
 
 
-static void game_server_read_game_time(ble_evt_t * p_ble_evt)
+static void service_server_read_game_time(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
     uint32_t time = 0;
-    game_server_read_request_response(read->offset, sizeof(time), &time);
+    service_server_read_request_response(read->offset, sizeof(time), &time);
 }
 
 
-static void game_server_write_client_score(ble_evt_t * p_ble_evt)
+static void service_server_write_client_score(ble_evt_t * p_ble_evt)
 {
 //    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
 //    uint32_t score = *write->data;
-    game_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
+    service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
 
-static void game_server_write_request_response(uint16_t gatt_status)
+static void service_server_write_request_response(uint16_t gatt_status)
 {
     ble_gatts_rw_authorize_reply_params_t reply;
     memset(&reply, 0, sizeof(reply));
@@ -242,7 +242,7 @@ static void game_server_write_request_response(uint16_t gatt_status)
 }
 
 
-static void game_server_read_request_response(uint16_t offset, uint16_t len, void * p_data)
+static void service_server_read_request_response(uint16_t offset, uint16_t len, void * p_data)
 {
     ble_gatts_rw_authorize_reply_params_t reply;
     memset(&reply, 0, sizeof(reply));
@@ -258,7 +258,7 @@ static void game_server_read_request_response(uint16_t offset, uint16_t len, voi
 }
 
 
-static void game_server_characteristic_add(game_server_characteristic_t * characteristic)
+static void service_server_characteristic_add(service_server_characteristic_t * characteristic)
 {
     // Add read/write properties to our characteristic.
     ble_gatts_char_md_t char_md;
@@ -316,9 +316,9 @@ static void game_server_characteristic_add(game_server_characteristic_t * charac
 }
 
 
-static game_server_characteristic_t * game_server_get_characteristic(ble_uuid_t uuid)
+static service_server_characteristic_t * service_server_get_characteristic(ble_uuid_t uuid)
 {
-    game_server_characteristic_t *  characteristic = &m_characteristics[0];
+    service_server_characteristic_t *  characteristic = &m_characteristics[0];
     for (int i = 0; i < NUM_CHARACTERISTICS; i++)
     {
         if (characteristic->uuid.uuid == uuid.uuid)

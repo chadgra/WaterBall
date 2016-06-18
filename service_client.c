@@ -1,6 +1,6 @@
 /**
  * @file
- * @defgroup WaterBall game_client.h
+ * @defgroup WaterBall service_client.h
  * @{
  * @ingroup WaterBall
  * @brief WaterBall game client module.
@@ -10,18 +10,18 @@
 #include "app_util_platform.h"
 #include "ble_hci.h"
 #include "ble_srv_common.h"
-#include "game.h"
-#include "game_client.h"
+#include "service.h"
+#include "service_client.h"
 #include "sdk_common.h"
 
-static game_client_state_t  m_game_client_state;
-static ble_uuid_t           m_service_uuid = { GAME_BASE_UUID, BLE_UUID_TYPE_VENDOR_BEGIN };
+static service_client_state_t  m_service_client_state;
+static ble_uuid_t           m_service_uuid = { SERVICE_BASE_UUID, BLE_UUID_TYPE_VENDOR_BEGIN };
 static uint16_t             m_service_handle;
 static uint16_t             m_conn_handle;
-static game_info_t          m_info = { 0 };
+static service_info_t       m_info = { 0 };
 
 
-void game_client_on_ble_evt(ble_evt_t * p_ble_evt)
+void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
 {
     ble_gattc_evt_t * p_ble_gattc_evt = &p_ble_evt->evt.gattc_evt;
 
@@ -35,7 +35,7 @@ void game_client_on_ble_evt(ble_evt_t * p_ble_evt)
         case BLE_GAP_EVT_DISCONNECTED:
         {
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
-            m_game_client_state = GAME_CLIENT_STATE_READY;
+            m_service_client_state = SERVICE_CLIENT_STATE_READY;
             break;
         }
         case BLE_GATTC_EVT_PRIM_SRVC_DISC_RSP:
@@ -61,8 +61,8 @@ void game_client_on_ble_evt(ble_evt_t * p_ble_evt)
                 }
                 else
                 {
-                    // We never found the service so just go back to the GAME_CLIENT_STATE_READY state - connection failed.
-                    m_game_client_state = GAME_CLIENT_STATE_READY;
+                    // We never found the service so just go back to the SERVICE_CLIENT_STATE_READY state - connection failed.
+                    m_service_client_state = SERVICE_CLIENT_STATE_READY;
                 }
             }
 
@@ -72,8 +72,8 @@ void game_client_on_ble_evt(ble_evt_t * p_ble_evt)
         {
             // Enable server score and game time indicate.
             uint16_t write_value = BLE_GATT_HVX_INDICATION;
-            game_client_write(BLE_GATT_OP_WRITE_CMD, m_info.server_score_config_handle, sizeof(write_value), &write_value);
-            game_client_write(BLE_GATT_OP_WRITE_CMD, m_info.game_time_config_handle, sizeof(write_value), &write_value);
+            service_client_write(BLE_GATT_OP_WRITE_CMD, m_info.server_score_config_handle, sizeof(write_value), &write_value);
+            service_client_write(BLE_GATT_OP_WRITE_CMD, m_info.game_time_config_handle, sizeof(write_value), &write_value);
 
             break;
         }
@@ -87,11 +87,11 @@ void game_client_on_ble_evt(ble_evt_t * p_ble_evt)
             ble_gattc_evt_hvx_t * p_hvx = &p_ble_gattc_evt->params.hvx;
             if (p_hvx->handle == m_info.server_score_handle)
             {
-                game_store_read_data(p_hvx->data, p_hvx->len);
+                service_store_read_data(p_hvx->data, p_hvx->len);
             }
             else if (p_hvx->handle == m_info.game_time_handle)
             {
-                game_store_read_data(p_hvx->data, p_hvx->len);
+                service_store_read_data(p_hvx->data, p_hvx->len);
             }
 
             if (BLE_GATT_HVX_INDICATION == p_hvx->type)
@@ -117,35 +117,35 @@ void game_client_on_ble_evt(ble_evt_t * p_ble_evt)
 }
 
 
-void game_client_init(void)
+void service_client_init(void)
 {
     m_conn_handle = BLE_CONN_HANDLE_INVALID;
-    m_game_client_state = GAME_CLIENT_STATE_INIT;
+    m_service_client_state = SERVICE_CLIENT_STATE_INIT;
 }
 
 
-void game_client_tasks(void)
+void service_client_tasks(void)
 {
-    switch (m_game_client_state)
+    switch (m_service_client_state)
     {
-        case GAME_CLIENT_STATE_INIT:
+        case SERVICE_CLIENT_STATE_INIT:
         {
-            m_game_client_state = GAME_CLIENT_STATE_READY;
+            m_service_client_state = SERVICE_CLIENT_STATE_READY;
             break;
         }
-        case GAME_CLIENT_STATE_READY:
-        {
-            break;
-        }
-        case GAME_CLIENT_STATE_CONNECTING:
+        case SERVICE_CLIENT_STATE_READY:
         {
             break;
         }
-        case GAME_CLIENT_STATE_CONNECTED:
+        case SERVICE_CLIENT_STATE_CONNECTING:
         {
             break;
         }
-        case GAME_CLIENT_STATE_ERROR:
+        case SERVICE_CLIENT_STATE_CONNECTED:
+        {
+            break;
+        }
+        case SERVICE_CLIENT_STATE_ERROR:
         {
             break;
         }
@@ -157,25 +157,25 @@ void game_client_tasks(void)
 }
 
 
-bool game_client_is_connected(void)
+bool service_client_is_connected(void)
 {
-    return m_game_client_state == GAME_CLIENT_STATE_CONNECTED;
+    return m_service_client_state == SERVICE_CLIENT_STATE_CONNECTED;
 }
 
 
-void game_client_try_connect(void)
+void service_client_try_connect(void)
 {
     if (BLE_CONN_HANDLE_INVALID == m_conn_handle)
     {
         return;
     }
 
-    APP_ERROR_CHECK(sd_ble_gattc_primary_services_discover(m_conn_handle, GAME_CLIENT_START_HANDLE, &m_service_uuid));
-    m_game_client_state = GAME_CLIENT_STATE_CONNECTING;
+    APP_ERROR_CHECK(sd_ble_gattc_primary_services_discover(m_conn_handle, SERVICE_CLIENT_START_HANDLE, &m_service_uuid));
+    m_service_client_state = SERVICE_CLIENT_STATE_CONNECTING;
 }
 
 
-static void game_client_write(uint8_t write_op, uint16_t handle, uint16_t len, void * p_value)
+static void service_client_write(uint8_t write_op, uint16_t handle, uint16_t len, void * p_value)
 {
     if (0 == len)
     {

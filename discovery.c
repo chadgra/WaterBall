@@ -10,7 +10,7 @@
 #include "buttons.h"
 #include "connect.h"
 #include "discovery.h"
-#include "game.h"
+#include "service.h"
 #include "status.h"
 #include "string.h"
 
@@ -59,12 +59,12 @@ void discovery_on_ble_evt(ble_evt_t const * p_scan_evt)
             break;
         case BLE_GAP_EVT_ADV_REPORT:
         {
-            char game_service_uuid[] = GAME_BASE_UUID_128;
+            char service_service_uuid[] = SERVICE_BASE_UUID_128;
             ble_gap_evt_adv_report_t * adv_report = (ble_gap_evt_adv_report_t *)&p_scan_evt->evt.gap_evt.params.adv_report;
-            char * p_service_start = memchr(adv_report->data, game_service_uuid[0], adv_report->dlen);
+            char * p_service_start = memchr(adv_report->data, service_service_uuid[0], adv_report->dlen);
             if (NULL != p_service_start)
             {
-                int result = memcmp(p_service_start, game_service_uuid, sizeof(game_service_uuid));
+                int result = memcmp(p_service_start, service_service_uuid, sizeof(service_service_uuid));
                 if (0 == result)
                 {
                     // This device has the service, try to connect.

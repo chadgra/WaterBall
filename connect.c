@@ -63,7 +63,6 @@ void connect_on_ble_evt(ble_evt_t const * p_ble_evt)
         case BLE_GAP_EVT_DISCONNECTED:
         {
             // Clear connection handle.
-            //const ble_gap_evt_disconnected_t * disconnected = &p_ble_evt->evt.gap_evt.params.disconnected;
             status_clear(STATUS_CONNECTED);
             status_set_role(BLE_GAP_ROLE_INVALID);
             m_conn_handle = BLE_CONN_HANDLE_INVALID;

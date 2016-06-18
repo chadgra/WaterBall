@@ -17,7 +17,7 @@
  #include "clock.h"
  #include "connect.h"
  #include "discovery.h"
- #include "game.h"
+ #include "service.h"
  #include "game_engine.h"
  #include "serial.h"
  #include "status.h"
@@ -33,7 +33,7 @@ int main(void)
     clock_init();
     game_engine_init();
     serial_init();
-    game_init();
+    service_init();
     advertise_init();
     discovery_init();
     connect_init();
@@ -46,7 +46,7 @@ int main(void)
         clock_tasks();
         game_engine_tasks();
         serial_tasks();
-        game_tasks();
+        service_tasks();
         advertise_tasks();
         discovery_tasks();
         connect_tasks();
