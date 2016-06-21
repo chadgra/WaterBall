@@ -36,14 +36,6 @@ void service_on_ble_evt(ble_evt_t * p_ble_evt)
 }
 
 
-void service_button_event_handler(uint8_t pin_number, uint8_t button_action)
-{
-    if ((APP_BUTTON_PUSH == button_action) && (6 == pin_number))
-    {
-    }
-}
-
-
 void service_init(void)
 {
     service_client_init();
@@ -77,12 +69,6 @@ void service_tasks(void)
 
     service_client_tasks();
     service_server_tasks();
-}
-
-
-uint32_t service_store_read_data(uint8_t * p_buffer, uint32_t size)
-{
-    return 0;
 }
 
 

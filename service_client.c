@@ -19,6 +19,8 @@ static ble_uuid_t           m_service_uuid = { SERVICE_BASE_UUID, BLE_UUID_TYPE_
 static uint16_t             m_service_handle;
 static uint16_t             m_conn_handle;
 static service_info_t       m_info = { 0 };
+static uint32_t             m_server_score;
+static uint32_t             m_time;
 
 
 void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
@@ -58,6 +60,7 @@ void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
                 // If we didn't find the service, but we found one previously then we are connected.
                 if (BLE_CONN_HANDLE_INVALID != m_service_handle)
                 {
+                    sd_ble_gattc_read(m_conn_handle, m_service_handle + SERVICE_INFO_ATTR_OFFSET, 0);
                 }
                 else
                 {
@@ -70,16 +73,25 @@ void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
         }
         case BLE_GATTC_EVT_READ_RSP:
         {
+            // We got a response from the INFO characteristic, copy them into m_info.
+            ble_gattc_evt_read_rsp_t * p_read_rsp = &p_ble_gattc_evt->params.read_rsp;
+            if ((m_service_handle + SERVICE_INFO_ATTR_OFFSET) != p_read_rsp->handle)
+            {
+                return;
+            }
+
+            memcpy(((uint8_t *)&m_info) + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
+
             // Enable server score and game time indicate.
             uint16_t write_value = BLE_GATT_HVX_INDICATION;
-            service_client_write(BLE_GATT_OP_WRITE_CMD, m_info.server_score_config_handle, sizeof(write_value), &write_value);
-            service_client_write(BLE_GATT_OP_WRITE_CMD, m_info.game_time_config_handle, sizeof(write_value), &write_value);
+            service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.server_score_handle), sizeof(write_value), &write_value);
+            service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.game_time_handle), sizeof(write_value), &write_value);
+            m_service_client_state = SERVICE_CLIENT_STATE_CONNECTED;
 
             break;
         }
         case BLE_GATTC_EVT_WRITE_RSP:
         {
-//            ble_gattc_evt_write_rsp_t * p_write_rsp = &p_ble_gattc_evt->params.write_rsp;
             break;
         }
         case BLE_GATTC_EVT_HVX:
@@ -87,11 +99,11 @@ void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
             ble_gattc_evt_hvx_t * p_hvx = &p_ble_gattc_evt->params.hvx;
             if (p_hvx->handle == m_info.server_score_handle)
             {
-                service_store_read_data(p_hvx->data, p_hvx->len);
+                memcpy(&m_server_score, p_hvx->data, p_hvx->len);
             }
             else if (p_hvx->handle == m_info.game_time_handle)
             {
-                service_store_read_data(p_hvx->data, p_hvx->len);
+                memcpy(&m_time, p_hvx->data, p_hvx->len);
             }
 
             if (BLE_GATT_HVX_INDICATION == p_hvx->type)
@@ -172,6 +184,18 @@ void service_client_try_connect(void)
 
     APP_ERROR_CHECK(sd_ble_gattc_primary_services_discover(m_conn_handle, SERVICE_CLIENT_START_HANDLE, &m_service_uuid));
     m_service_client_state = SERVICE_CLIENT_STATE_CONNECTING;
+}
+
+
+uint32_t service_client_get_server_score(void)
+{
+    return m_server_score;
+}
+
+
+void service_client_write_client_score(uint32_t score)
+{
+    service_client_write(BLE_GATT_OP_WRITE_REQ, m_info.client_score_handle, sizeof(score), &score);
 }
 
 

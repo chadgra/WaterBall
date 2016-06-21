@@ -16,19 +16,21 @@
 #include "ble.h"
 #include "ble_types.h"
 
-#define MAX_CONNECTING_CYCLES                       (8)
-#define SERVICE_MAX_TX_BYTES                           (GATT_MTU_SIZE_DEFAULT - sizeof(uint8_t) - sizeof(uint16_t))    /**< The opcode and handle take up a few bytes of the MTU. */
+#define MAX_CONNECTING_CYCLES                           (8)
+#define SERVICE_MAX_TX_BYTES                            (GATT_MTU_SIZE_DEFAULT - sizeof(uint8_t) - sizeof(uint16_t))    /**< The opcode and handle take up a few bytes of the MTU. */
 
-#define SERVICE_BASE_UUID_128                          { 0x12, 0x9A, 0xF0, 0x11, 0xA1, 0x09, 0x2F, 0xF4, 0xE1, 0x00, 0x6A, 0x11, 0xBA, 0xE9, 0xA7, 0x44 }
-#define SERVICE_BASE_UUID                              (0xE9BA)
-#define SERVICE_SERVER_SCORE_UUID                      (0x15C0)
-#define SERVICE_CLIENT_SCORE_UUID                      (0x25C0)
-#define SERVICE_TIME_UUID                              (0x7100)
+#define SERVICE_BASE_UUID_128                           { 0x12, 0x9A, 0xF0, 0x11, 0xA1, 0x09, 0x2F, 0xF4, 0xE1, 0x00, 0x6A, 0x11, 0xBA, 0xE9, 0xA7, 0x44 }
+#define SERVICE_BASE_UUID                               (0xE9BA)
+#define SERVICE_INFO_UUID                               (0x10F0)
+#define SERVICE_SERVER_SCORE_UUID                       (0x15C0)
+#define SERVICE_CLIENT_SCORE_UUID                       (0x25C0)
+#define SERVICE_TIME_UUID                               (0x7100)
 
-#define IS_SERVICE_CLIENT                              (service_is_client())
-#define IS_SERVICE_SERVER                              (service_is_server())
+#define IS_SERVICE_CLIENT                               (service_is_client())
+#define IS_SERVICE_SERVER                               (service_is_server())
 
-#define SERVICE_UUID(UUID)                             { UUID, BLE_UUID_TYPE_BLE }
+#define SERVICE_UUID(UUID)                              { UUID, BLE_UUID_TYPE_BLE }
+#define CONFIG_HANDLE(HANDLE)                           (HANDLE + 1)
 
 /**
  * @brief   service server module states.
@@ -46,10 +48,8 @@ typedef enum
 typedef struct
 {
     uint16_t    server_score_handle;
-    uint16_t    server_score_config_handle;
     uint16_t    client_score_handle;
     uint16_t    game_time_handle;
-    uint16_t    game_time_config_handle;
 } service_info_t;
 
 /**
@@ -58,14 +58,6 @@ typedef struct
  * @param[in]   p_ble_evt           The event data.
  */
 void service_on_ble_evt(ble_evt_t * p_ble_evt);
-
-/**
- * @brief   Handler for when the service button is pressed.
- *
- * @param[in]   pin_number          The pin number that was pressed.
- * @param[in]   button_action       The button action - PUSH/RELEASE.
- */
-void service_button_event_handler(uint8_t pin_number, uint8_t button_action);
 
 /**
  * @brief   Function to initialize the service module.
@@ -78,8 +70,6 @@ void service_init(void);
  * @details This should be called repeatedly from the main loop.
  */
 void service_tasks(void);
-
-uint32_t service_store_read_data(uint8_t * p_buffer, uint32_t size);
 
 /**
  * @brief   Try to connect as a client, this function gives access to service_client_try_connect command.

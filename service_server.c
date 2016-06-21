@@ -14,19 +14,22 @@
 #include "service_server.h"
 #include "sdk_common.h"
 
-#define NUM_CHARACTERISTICS             (sizeof(m_characteristics) / sizeof(m_characteristics[0]))
+#define NUM_CHARACTERISTICS     (sizeof(m_characteristics) / sizeof(m_characteristics[0]))
 
-static service_server_state_t  m_service_server_state;
-static uint16_t             m_service_handle;
-static uint16_t             m_conn_handle;
-static service_info_t       m_info = { 0 };
-
+static service_server_state_t   m_service_server_state;
+static uint16_t                 m_service_handle;
+static uint16_t                 m_conn_handle;
+static service_info_t           m_info = { 0 };
+static uint32_t                 m_server_score;
+static uint32_t                 m_client_score;
+static uint32_t                 m_time;
 
 static service_server_characteristic_t m_characteristics[] =
 {
-    { SERVICE_UUID(SERVICE_SERVER_SCORE_UUID),    service_server_read_server_score,  NULL,                           &m_info.server_score_handle,    &m_info.server_score_config_handle, PROPERTY_READ | PROPERTY_INDICATE },
-    { SERVICE_UUID(SERVICE_CLIENT_SCORE_UUID),    NULL,                           service_server_write_client_score, &m_info.client_score_handle,    NULL,                               PROPERTY_WRITE },
-    { SERVICE_UUID(SERVICE_TIME_UUID),            service_server_read_game_time,     NULL,                           &m_info.game_time_handle,       &m_info.game_time_config_handle,    PROPERTY_READ | PROPERTY_INDICATE }
+    { SERVICE_UUID(SERVICE_INFO_UUID),          sizeof(m_info),         service_server_read_info,           NULL,                               NULL,                           PROPERTY_READ },
+    { SERVICE_UUID(SERVICE_SERVER_SCORE_UUID),  sizeof(m_server_score), service_server_read_server_score,   NULL,                               &m_info.server_score_handle,    PROPERTY_READ | PROPERTY_INDICATE },
+    { SERVICE_UUID(SERVICE_CLIENT_SCORE_UUID),  sizeof(m_client_score), service_server_read_client_score,   service_server_write_client_score,  &m_info.client_score_handle,    PROPERTY_READ | PROPERTY_WRITE },
+    { SERVICE_UUID(SERVICE_TIME_UUID),          sizeof(m_time),         service_server_read_game_time,      NULL,                               &m_info.game_time_handle,       PROPERTY_READ | PROPERTY_INDICATE }
 };
 
 
@@ -193,9 +196,16 @@ static void service_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len,
 }
 
 
+uint32_t service_server_get_client_score(void)
+{
+    return m_client_score;
+}
+
+
 void service_server_indicate_server_score(uint32_t score)
 {
-    service_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.server_score_handle, sizeof(score), &score);
+    m_server_score = score;
+    service_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.server_score_handle, sizeof(m_server_score), &m_server_score);
 }
 
 
@@ -205,26 +215,39 @@ void service_server_indicate_game_time(uint32_t ms_remaining)
 }
 
 
+static void service_server_read_info(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_info), &m_info);
+    m_service_server_state = SERVICE_SERVER_STATE_CONNECTED;
+}
+
+
 static void service_server_read_server_score(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
-    uint32_t score = 0;
-    service_server_read_request_response(read->offset, sizeof(score), &score);
+    service_server_read_request_response(read->offset, sizeof(m_server_score), &m_server_score);
+}
+
+
+static void service_server_read_client_score(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_client_score), &m_client_score);
 }
 
 
 static void service_server_read_game_time(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
-    uint32_t time = 0;
-    service_server_read_request_response(read->offset, sizeof(time), &time);
+    service_server_read_request_response(read->offset, sizeof(m_time), &m_time);
 }
 
 
 static void service_server_write_client_score(ble_evt_t * p_ble_evt)
 {
-//    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-//    uint32_t score = *write->data;
+    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+    m_client_score = *write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
@@ -296,7 +319,7 @@ static void service_server_characteristic_add(service_server_characteristic_t * 
     memset(&attr_char_value, 0, sizeof(attr_char_value));
     attr_char_value.p_uuid    = &characteristic->uuid;
     attr_char_value.p_attr_md = &attr_md;
-    attr_char_value.max_len   = sizeof(uint32_t);
+    attr_char_value.max_len   = characteristic->max_length;
 
     APP_ERROR_CHECK(sd_ble_gatts_characteristic_add(m_service_handle,
                                                     &char_md,
@@ -307,11 +330,6 @@ static void service_server_characteristic_add(service_server_characteristic_t * 
     if (NULL != characteristic->character_handle)
     {
         *characteristic->character_handle = characteristic->handles.value_handle;
-    }
-
-    if (NULL != characteristic->character_config_handle)
-    {
-        *characteristic->character_config_handle = characteristic->handles.cccd_handle;
     }
 }
 

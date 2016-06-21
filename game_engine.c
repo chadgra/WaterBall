@@ -13,6 +13,7 @@
 #include "app_button.h"
 #include "bsp.h"
 #include "clock.h"
+#include "game.h"
 #include "game_engine.h"
 #include "serial.h"
 
@@ -92,9 +93,12 @@ void game_engine_event_handler(uint8_t pin_number, uint8_t button_action)
 
     switch (pin_number)
     {
-        case BUTTON_1:
+        case BUTTON_2:
             m_game_engine_state = GAME_ENGINE_STARTING;
             m_clock_start_ticks = clock_get_ticks();
+            break;
+        case BUTTON_3:
+            game_increment_my_score(1);
             break;
         default:
             break;
@@ -115,7 +119,7 @@ static void game_engine_print_score_board(uint32_t ms)
         seconds = (ms % 1000) / 10;
     }
 
-    uint32_t size = snprintf(buffer, sizeof(buffer), "\r%02d:%02d", minutes, seconds);
+    uint32_t size = snprintf(buffer, sizeof(buffer), "\r%02d:%02d\t%02d %02d", minutes, seconds, game_get_my_score(), game_get_their_score());
     serial_write((uint8_t *)buffer, size);
 }
 

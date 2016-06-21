@@ -46,13 +46,13 @@ typedef void (* service_server_ble_evt_callback_t)(ble_evt_t * p_ble_evt);
  */
 typedef struct
 {
-    ble_uuid_t                      uuid;
-    service_server_ble_evt_callback_t  read_callback;
-    service_server_ble_evt_callback_t  write_callback;
-    __packed uint16_t *             character_handle;
-    __packed uint16_t *             character_config_handle;
-    uint8_t                         properties;
-    ble_gatts_char_handles_t        handles;
+    ble_uuid_t                          uuid;
+    uint32_t                            max_length;
+    service_server_ble_evt_callback_t   read_callback;
+    service_server_ble_evt_callback_t   write_callback;
+    __packed uint16_t *                 character_handle;
+    uint8_t                             properties;
+    ble_gatts_char_handles_t            handles;
 } service_server_characteristic_t;
 
 /**
@@ -92,6 +92,13 @@ bool service_server_is_connected(void);
 static void service_server_hvx_send(uint8_t type, uint16_t uuid, uint16_t len, void * p_value);
 
 /**
+ * @brief   Get the previously written client score.
+ *
+ * @retval      The client score that was previously written to the server.
+ */
+uint32_t service_server_get_client_score(void);
+
+/**
  * @brief   Create a server score indication.
  *
  * @param[in]   score           The server score to indicate.
@@ -106,11 +113,25 @@ void service_server_indicate_server_score(uint32_t score);
 void service_server_indicate_game_time(uint32_t ms_remaining);
 
 /**
+ * @brief   Handle a read of the service info.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_info(ble_evt_t * p_ble_evt);
+
+/**
  * @brief   Handle a read of the server score.
  *
  * @param[in]   p_ble_evt       The event data.
  */
 static void service_server_read_server_score(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a read of the client score.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_client_score(ble_evt_t * p_ble_evt);
 
 /**
  * @brief   Handle a write of the client score.

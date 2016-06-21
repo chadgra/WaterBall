@@ -406,6 +406,11 @@
               <FilePath>.\discovery.c</FilePath>
             </File>
             <File>
+              <FileName>game.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\game.c</FilePath>
+            </File>
+            <File>
               <FileName>game_engine.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\game_engine.c</FilePath>

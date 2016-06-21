@@ -17,18 +17,19 @@
 #include "ble.h"
 #include "ble_types.h"
 
-#define SERVICE_CLIENT_START_HANDLE            (0x0001)
+#define SERVICE_CLIENT_START_HANDLE             (0x0001)
+#define SERVICE_INFO_ATTR_OFFSET                (2)
 
 /**
  * @brief   service_client module states.
  */
 typedef enum
 {
-    SERVICE_CLIENT_STATE_INIT,                 /**< Initialize the service_client module. */
-    SERVICE_CLIENT_STATE_READY,                /**< The service_client module is running normally. */
-    SERVICE_CLIENT_STATE_CONNECTING,           /**< The client is trying to connect to a server. */
-    SERVICE_CLIENT_STATE_CONNECTED,            /**< The client is connected to a server. */
-    SERVICE_CLIENT_STATE_ERROR                 /**< Throw an error message if it occurred in the interrupt handler. */
+    SERVICE_CLIENT_STATE_INIT,                  /**< Initialize the service_client module. */
+    SERVICE_CLIENT_STATE_READY,                 /**< The service_client module is running normally. */
+    SERVICE_CLIENT_STATE_CONNECTING,            /**< The client is trying to connect to a server. */
+    SERVICE_CLIENT_STATE_CONNECTED,             /**< The client is connected to a server. */
+    SERVICE_CLIENT_STATE_ERROR                  /**< Throw an error message if it occurred in the interrupt handler. */
 } service_client_state_t;
 
 /**
@@ -61,6 +62,20 @@ bool service_client_is_connected(void);
  * @brief   Function to try and start a connection with a game server as the client.
  */
 void service_client_try_connect(void);
+
+/**
+ * @brief   Function to get the previously indicated server score.
+ *
+ * @retval      The previously indicated server score.
+ */
+uint32_t service_client_get_server_score(void);
+
+/**
+ * @brief   Function for writing to the client score handle of the server.
+ *
+ * @param[in]   score           The client score to write to the server.
+ */
+void service_client_write_client_score(uint32_t score);
 
 /**
  * @brief   Function to facilitate writing values.

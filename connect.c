@@ -12,6 +12,7 @@
 #include "clock.h"
 #include "connect.h"
 #include "discovery.h"
+#include "service.h"
 #include "status.h"
 
 static connect_state_t      m_connect_state;
@@ -55,7 +56,8 @@ void connect_on_ble_evt(ble_evt_t const * p_ble_evt)
 
             if (IS_CENTRAL)
             {
-                // If this is the peripheral then try to connect as the BRSP client.
+                // If this is the central then try to connect as the BRSP client.
+                service_try_connect();
             }
 
             break;
