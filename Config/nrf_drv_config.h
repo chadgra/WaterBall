@@ -219,9 +219,11 @@
 #endif //NRF52
 #endif
 
-#define TWI0_ENABLED 0
+#define TWI0_ENABLED 1
 
 #if (TWI0_ENABLED == 1)
+#define TWI0_USE_EASY_DMA 1
+
 #define TWI0_CONFIG_FREQUENCY    NRF_TWI_FREQ_100K
 #define TWI0_CONFIG_SCL          0
 #define TWI0_CONFIG_SDA          1
