@@ -17,11 +17,12 @@
 #include "clock.h"
 #include "connect.h"
 #include "discovery.h"
-#include "service.h"
 #include "game_engine.h"
+#include "i2c.h"
 #include "serial.h"
+#include "service.h"
+#include "seven_segment.h"
 #include "status.h"
-#include "seven_segment_ht16K33.h"
 
 /**
  * @brief Function for main application entry.
@@ -38,6 +39,7 @@ int main(void)
     advertise_init();
     discovery_init();
     connect_init();
+    i2c_init();
     seven_segment_init();
 
     while (true)
@@ -52,7 +54,8 @@ int main(void)
         advertise_tasks();
         discovery_tasks();
         connect_tasks();
-        //seven_segment_set_digits(1, 2, 3, 4, 5);
+        i2c_tasks();
+        seven_segment_tasks();
     }
 }
 

@@ -416,6 +416,11 @@
               <FilePath>.\game_engine.c</FilePath>
             </File>
             <File>
+              <FileName>i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\i2c.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\main.c</FilePath>
@@ -424,11 +429,6 @@
               <FileName>serial.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\serial.c</FilePath>
-            </File>
-            <File>
-              <FileName>status.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\status.c</FilePath>
             </File>
             <File>
               <FileName>service.c</FileName>
@@ -446,14 +446,14 @@
               <FilePath>.\service_server.c</FilePath>
             </File>
             <File>
-              <FileName>HT16K33_I2C.c</FileName>
+              <FileName>seven_segment.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\HT16K33_I2C.c</FilePath>
+              <FilePath>.\seven_segment.c</FilePath>
             </File>
             <File>
-              <FileName>seven_segment_ht16K33.c</FileName>
+              <FileName>status.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\seven_segment_ht16K33.c</FilePath>
+              <FilePath>.\status.c</FilePath>
             </File>
           </Files>
         </Group>
