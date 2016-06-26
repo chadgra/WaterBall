@@ -26,11 +26,11 @@ void i2c_tasks(void)
 
 void i2c_byte_write(uint8_t address, uint8_t data)
 {
-    APP_ERROR_CHECK(nrf_drv_twi_tx(&m_twi_master, address, &data, sizeof(data), false));
+    nrf_drv_twi_tx(&m_twi_master, address, &data, sizeof(data), false);
 }
 
 
 void i2c_data_write(uint8_t address, uint8_t * p_data, uint32_t size)
 {
-    APP_ERROR_CHECK(nrf_drv_twi_tx(&m_twi_master, address, p_data, size, false));
+    nrf_drv_twi_tx(&m_twi_master, address, p_data, size, false);
 }

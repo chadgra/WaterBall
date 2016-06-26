@@ -20,35 +20,27 @@
 #define HT16K33_BLINKOFF            0x81                            // same as display on
 #define HT16K33_DIM                 0xE0                            // add level (15=max) to byte
 
+// The bit numbers of each segment.
+//  0000
+// 5    1
+// 5    1
+// 5    1
+// 5    1
+//  6666
+// 4    2
+// 4    2
+// 4    2
+// 4    2
+//  3333
+
 typedef enum
 {
+    COLON_TYPE_NONE = 0,
     COLON_TYPE_COLON = 2,
     COLON_TYPE_TOP_LEFT = 4,
     COLON_TYPE_BOTTOM_LEFT = 8,
     COLON_TYPE_TOP_RIGHT = 16
 } colon_type_t;
-
-static const uint8_t number_table[] =
-{
-    0x3F,           // 0
-    0x06,           // 1
-    0x5B,           // 2
-    0x4F,           // 3
-    0x66,           // 4
-    0x6D,           // 5
-    0x7D,           // 6
-    0x07,           // 7
-    0x7F,           // 8
-    0x6F,           // 9
-    0x77,           // A
-    0x7C,           // b
-    0x39,           // C
-    0x5E,           // d
-    0x79,           // E
-    0x71,           // F
-    0x00,           //<blank>
-};
-
 
 // Initialize seven segment module(HT16K33).
 void seven_segment_init(void);
@@ -57,19 +49,30 @@ void seven_segment_init(void);
 void seven_segment_tasks(void);
 
 // Setting raw digit.
-static void seven_segment_set_digit_raw(uint8_t digit, uint8_t data);
+static void seven_segment_set_digit_raw(uint8_t address, uint8_t digit, uint8_t data);
 
 // Clearing out digits.
-void seven_segment_blankdigit(uint8_t digit);
+void seven_segment_blank_digit(uint8_t address, uint8_t digit);
 
-// Setting actual led's of the seven segment display
-static void seven_segment_set_digit(uint8_t digit, uint8_t data);
+// Setting actual led's of the seven segment display with a number.
+static void seven_segment_set_digit(uint8_t address, uint8_t digit, uint8_t data);
+
+// Setting actual led's of the seven segment display - given a character.
+static void seven_segment_set_char_digit(uint8_t address, uint8_t digit, char data);
 
 // Setting colon.
-static void seven_segment_set_colon(colon_type_t colon_type);
+static void seven_segment_set_colon(uint8_t address, colon_type_t colon_type);
+
+// Setting the left and right 2 digit numbers.
+void seven_segment_set_numbers(uint8_t address, uint8_t left_value, uint8_t right_value, colon_type_t colon_type);
 
 // Setting all seven segment all at once.
-void seven_segment_set_digits(uint8_t digit_0, uint8_t digit_1, uint8_t digit_2, uint8_t digit_3, colon_type_t colon_type);
+void seven_segment_set_digits(uint8_t address, uint8_t digit_0, uint8_t digit_1, uint8_t digit_2, uint8_t digit_3, colon_type_t colon_type);
 
+// Setting the digits with characters - at least the best representation we can make of them.
+void seven_segment_set_char_digits(uint8_t address, uint8_t start_digit, char * string, colon_type_t colon_type);
+
+// Blanking all digits.
+void seven_segment_blank_digits(uint8_t address);
 
 #endif // SEVEN_SEGMENT_H
