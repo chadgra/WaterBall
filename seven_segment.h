@@ -42,6 +42,12 @@ typedef enum
     COLON_TYPE_TOP_RIGHT = 16
 } colon_type_t;
 
+typedef struct
+{
+    uint8_t digits[4];
+    uint8_t colon;
+} set_value_t;
+
 // Initialize seven segment module(HT16K33).
 void seven_segment_init(void);
 

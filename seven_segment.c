@@ -1,6 +1,8 @@
 #include "i2c.h"
 #include "seven_segment.h"
 
+static set_value_t set_values[2] = { 0 };
+
 static const uint8_t number_table[] =
 {
     0x3F, // 0
@@ -184,16 +186,26 @@ static void seven_segment_set_digit_raw(uint8_t address, uint8_t digit, uint8_t 
         // Only digits 0-3
         return;
     }
-    
+
+    uint8_t address_index = address - HT16K33_BASE_ADDRESS;
+    uint8_t * p_current_data = &set_values[address_index].digits[digit];
+    if (*p_current_data == data)
+    {
+        // It is already set to this value, so don't worry about doing it again.
+        return;
+    }
+
+    *p_current_data = data;
+
     // Skip over colon at position 2
     if (1 < digit)
     {
         digit++;
     }
-    
+
     // Multiply by 2
     digit<<=1;
-    
+
     uint8_t tx_data[2] = {digit, data};
     i2c_data_write(address, tx_data, sizeof(tx_data));
 }
@@ -233,6 +245,16 @@ static void seven_segment_set_char_digit(uint8_t address, uint8_t digit, char da
 
 static void seven_segment_set_colon(uint8_t address, colon_type_t colon_type)
 {
+    uint8_t address_index = address - HT16K33_BASE_ADDRESS;
+    uint8_t * p_current_colon_type = &set_values[address_index].colon;
+    if (*p_current_colon_type == colon_type)
+    {
+        // It is already set to this value, so don't worry about doing it again.
+        return;
+    }
+
+    *p_current_colon_type = colon_type;
+
     // The colon is represented by bit 1 at address 0x04. There are three other
     // single LED "decimal points" on the display, which are at the following bit positions
     // bit2 = topo left, bit3=bottom left, bit4= top right
