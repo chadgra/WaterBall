@@ -22,14 +22,24 @@ static uint16_t                 m_conn_handle;
 static service_info_t           m_info = { 0 };
 static uint32_t                 m_server_score;
 static uint32_t                 m_client_score;
-static uint32_t                 m_time;
+static uint32_t                 m_game_time;
+static uint32_t                 m_vibration;
+static uint32_t                 m_hole;
+static uint32_t                 m_current_time;
+static uint32_t                 m_target_score;
+static uint32_t                 m_game_state;
 
 static service_server_characteristic_t m_characteristics[] =
 {
     { SERVICE_UUID(SERVICE_INFO_UUID),          sizeof(m_info),         service_server_read_info,           NULL,                               NULL,                           PROPERTY_READ },
     { SERVICE_UUID(SERVICE_SERVER_SCORE_UUID),  sizeof(m_server_score), service_server_read_server_score,   NULL,                               &m_info.server_score_handle,    PROPERTY_READ | PROPERTY_INDICATE },
     { SERVICE_UUID(SERVICE_CLIENT_SCORE_UUID),  sizeof(m_client_score), service_server_read_client_score,   service_server_write_client_score,  &m_info.client_score_handle,    PROPERTY_READ | PROPERTY_WRITE },
-    { SERVICE_UUID(SERVICE_TIME_UUID),          sizeof(m_time),         service_server_read_game_time,      NULL,                               &m_info.game_time_handle,       PROPERTY_READ | PROPERTY_INDICATE }
+    { SERVICE_UUID(SERVICE_GAME_STATE_UUID),    sizeof(m_game_state),   service_server_read_game_state,     NULL,                               &m_info.game_state_handle,      PROPERTY_READ | PROPERTY_INDICATE },
+    { SERVICE_UUID(SERVICE_CURRENT_TIME_UUID),  sizeof(m_current_time), service_server_read_current_time,   service_server_write_current_time,  &m_info.current_time_handle,    PROPERTY_READ | PROPERTY_WRITE | PROPERTY_INDICATE },
+    { SERVICE_UUID(SERVICE_GAME_TIME_UUID),     sizeof(m_game_time),    service_server_read_game_time,      service_server_write_game_time,     &m_info.game_time_handle,       PROPERTY_READ | PROPERTY_WRITE },
+    { SERVICE_UUID(SERVICE_VIBRATION_UUID),     sizeof(m_vibration),    service_server_read_vibration,      service_server_write_vibration,     &m_info.vibration_handle,       PROPERTY_READ | PROPERTY_WRITE },
+    { SERVICE_UUID(SERVICE_HOLE_UUID),          sizeof(m_hole),         service_server_read_hole,           service_server_write_hole,          &m_info.hole_handle,            PROPERTY_READ | PROPERTY_WRITE },
+    { SERVICE_UUID(SERVICE_TARGET_SCORE_UUID),  sizeof(m_target_score), service_server_read_target_score,   service_server_write_target_score,  &m_info.target_score_handle,    PROPERTY_READ | PROPERTY_WRITE },
 };
 
 
@@ -240,7 +250,42 @@ static void service_server_read_client_score(ble_evt_t * p_ble_evt)
 static void service_server_read_game_time(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
-    service_server_read_request_response(read->offset, sizeof(m_time), &m_time);
+    service_server_read_request_response(read->offset, sizeof(m_game_time), &m_game_time);
+}
+
+
+static void service_server_read_vibration(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_vibration), &m_vibration);
+}
+
+
+static void service_server_read_hole(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_hole), &m_hole);
+}
+
+
+static void service_server_read_current_time(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_current_time), &m_current_time);
+}
+
+
+static void service_server_read_target_score(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_target_score), &m_target_score);
+}
+
+
+static void service_server_read_game_state(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_read_t * read = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.read;
+    service_server_read_request_response(read->offset, sizeof(m_game_state), &m_game_state);
 }
 
 
@@ -248,6 +293,46 @@ static void service_server_write_client_score(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
     m_client_score = *write->data;
+    service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
+}
+
+
+static void service_server_write_game_time(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+    m_game_time = *write->data;
+    service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
+}
+
+
+static void service_server_write_vibration(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+    m_vibration = *write->data;
+    service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
+}
+
+
+static void service_server_write_hole(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+    m_hole = *write->data;
+    service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
+}
+
+
+static void service_server_write_current_time(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+    m_current_time = *write->data;
+    service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
+}
+
+
+static void service_server_write_target_score(ble_evt_t * p_ble_evt)
+{
+    ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
+    m_target_score = *write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 

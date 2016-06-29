@@ -24,7 +24,12 @@
 #define SERVICE_INFO_UUID                               (0x10F0)
 #define SERVICE_SERVER_SCORE_UUID                       (0x15C0)
 #define SERVICE_CLIENT_SCORE_UUID                       (0x25C0)
-#define SERVICE_TIME_UUID                               (0x7100)
+#define SERVICE_GAME_STATE_UUID                         (0x57A7)
+#define SERVICE_CURRENT_TIME_UUID                       (0xCE77)
+#define SERVICE_GAME_TIME_UUID                          (0x7100)
+#define SERVICE_VIBRATION_UUID                          (0x1BA7)
+#define SERVICE_HOLE_UUID                               (0x401E)
+#define SERVICE_TARGET_SCORE_UUID                       (0x7AE7)
 
 #define IS_SERVICE_CLIENT                               (service_is_client())
 #define IS_SERVICE_SERVER                               (service_is_server())
@@ -49,7 +54,12 @@ typedef struct
 {
     uint16_t    server_score_handle;
     uint16_t    client_score_handle;
+    uint16_t    game_state_handle;
+    uint16_t    current_time_handle;
     uint16_t    game_time_handle;
+    uint16_t    vibration_handle;
+    uint16_t    hole_handle;
+    uint16_t    target_score_handle;
 } service_info_t;
 
 /**

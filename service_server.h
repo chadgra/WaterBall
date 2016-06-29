@@ -134,6 +134,48 @@ static void service_server_read_server_score(ble_evt_t * p_ble_evt);
 static void service_server_read_client_score(ble_evt_t * p_ble_evt);
 
 /**
+ * @brief   Handle a read of the remaining game time.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_game_time(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a read of the vibration value.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_vibration(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a read of the hole value.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_hole(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a read of the current time.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_current_time(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a read of the target score.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_target_score(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a read of the game state.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_read_game_state(ble_evt_t * p_ble_evt);
+
+/**
  * @brief   Handle a write of the client score.
  *
  * @param[in]   p_ble_evt       The event data.
@@ -141,11 +183,39 @@ static void service_server_read_client_score(ble_evt_t * p_ble_evt);
 static void service_server_write_client_score(ble_evt_t * p_ble_evt);
 
 /**
- * @brief   Handle a a read of the remaining game time.
+ * @brief   Handle a read of the remaining game time.
  *
  * @param[in]   p_ble_evt       The event data.
  */
-static void service_server_read_game_time(ble_evt_t * p_ble_evt);
+static void service_server_write_game_time(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a write of the vibration value.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_write_vibration(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a write of the hole value.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_write_hole(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a write of the current time.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_write_current_time(ble_evt_t * p_ble_evt);
+
+/**
+ * @brief   Handle a write of the target score.
+ *
+ * @param[in]   p_ble_evt       The event data.
+ */
+static void service_server_write_target_score(ble_evt_t * p_ble_evt);
 
 /**
  * @brief   Function to respond to a write request.
