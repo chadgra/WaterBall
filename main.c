@@ -17,7 +17,7 @@
 #include "clock.h"
 #include "connect.h"
 #include "discovery.h"
-#include "game_engine.h"
+#include "game.h"
 #include "i2c.h"
 #include "serial.h"
 #include "service.h"
@@ -33,7 +33,6 @@ int main(void)
     ble_stack_init();
     buttons_init();
     clock_init();
-    game_engine_init();
     serial_init();
     service_init();
     advertise_init();
@@ -41,6 +40,7 @@ int main(void)
     connect_init();
     i2c_init();
     seven_segment_init();
+    game_init();
 
     while (true)
     {
@@ -48,7 +48,6 @@ int main(void)
         ble_stack_tasks();
         buttons_tasks();
         clock_tasks();
-        game_engine_tasks();
         serial_tasks();
         service_tasks();
         advertise_tasks();
@@ -56,6 +55,7 @@ int main(void)
         connect_tasks();
         i2c_tasks();
         seven_segment_tasks();
+        game_tasks();
     }
 }
 

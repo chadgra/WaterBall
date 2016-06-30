@@ -411,11 +411,6 @@
               <FilePath>.\game.c</FilePath>
             </File>
             <File>
-              <FileName>game_engine.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\game_engine.c</FilePath>
-            </File>
-            <File>
               <FileName>i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\i2c.c</FilePath>

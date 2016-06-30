@@ -99,6 +99,41 @@ static void service_server_hvx_send(uint8_t type, uint16_t uuid, uint16_t len, v
 uint32_t service_server_get_client_score(void);
 
 /**
+ * @brief   Get the previously written current time.
+ *
+ * @retval      The current time that was previously written to the server.
+ */
+uint32_t service_server_get_current_time(void);
+
+/**
+ * @brief   Get the previously written game time.
+ *
+ * @retval      The game time that was previously written to the server.
+ */
+uint32_t service_server_get_game_time(void);
+
+/**
+ * @brief   Get the previously written vibration value.
+ *
+ * @retval      The vibration value that was previously written to the server.
+ */
+uint32_t service_server_get_vibration(void);
+
+/**
+ * @brief   Get the previously written hole value.
+ *
+ * @retval      The hole value that was previously written to the server.
+ */
+uint32_t service_server_get_hole(void);
+
+/**
+ * @brief   Get the previously written target score.
+ *
+ * @retval      The target score that was previously written to the server.
+ */
+uint32_t service_server_get_target_score(void);
+
+/**
  * @brief   Create a server score indication.
  *
  * @param[in]   score           The server score to indicate.

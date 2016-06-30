@@ -26,11 +26,23 @@ void i2c_tasks(void)
 
 void i2c_byte_write(uint8_t address, uint8_t data)
 {
-    nrf_drv_twi_tx(&m_twi_master, address, &data, sizeof(data), false);
+    int i = 4;
+    uint32_t result;
+    do
+    {
+        result = nrf_drv_twi_tx(&m_twi_master, address, &data, sizeof(data), false);
+        i--;
+    } while ((NRF_SUCCESS != result) && (0 < i));
 }
 
 
 void i2c_data_write(uint8_t address, uint8_t * p_data, uint32_t size)
 {
-    nrf_drv_twi_tx(&m_twi_master, address, p_data, size, false);
+    int i = 4;
+    uint32_t result;
+    do
+    {
+        result = nrf_drv_twi_tx(&m_twi_master, address, p_data, size, false);
+        i--;
+    } while ((NRF_SUCCESS != result) && (0 < i));
 }

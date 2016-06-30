@@ -20,14 +20,14 @@ static service_server_state_t   m_service_server_state;
 static uint16_t                 m_service_handle;
 static uint16_t                 m_conn_handle;
 static service_info_t           m_info = { 0 };
-static uint32_t                 m_server_score;
-static uint32_t                 m_client_score;
-static uint32_t                 m_game_time;
-static uint32_t                 m_vibration;
-static uint32_t                 m_hole;
-static uint32_t                 m_current_time;
-static uint32_t                 m_target_score;
-static uint32_t                 m_game_state;
+static uint32_t                 m_server_score = 0;
+static uint32_t                 m_client_score = 0;
+static uint32_t                 m_current_time = 0;
+static uint32_t                 m_game_state = 0;
+static uint32_t                 m_game_time = 60000;
+static uint32_t                 m_vibration = 1;
+static uint32_t                 m_hole = UINT32_MAX;
+static uint32_t                 m_target_score = 0;
 
 static service_server_characteristic_t m_characteristics[] =
 {
@@ -209,6 +209,36 @@ static void service_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len,
 uint32_t service_server_get_client_score(void)
 {
     return m_client_score;
+}
+
+
+uint32_t service_server_get_current_time(void)
+{
+    return m_current_time;
+}
+
+
+uint32_t service_server_get_game_time(void)
+{
+    return m_game_time;
+}
+
+
+uint32_t service_server_get_vibration(void)
+{
+    return m_vibration;
+}
+
+
+uint32_t service_server_get_hole(void)
+{
+    return m_hole;
+}
+
+
+uint32_t service_server_get_target_score(void)
+{
+    return m_target_score;
 }
 
 

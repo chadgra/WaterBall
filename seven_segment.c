@@ -1,7 +1,9 @@
+#include <string.h>
+
 #include "i2c.h"
 #include "seven_segment.h"
 
-static set_value_t set_values[2] = { 0 };
+static set_value_t set_values[2] = { 0x00 };
 
 static const uint8_t number_table[] =
 {
@@ -160,6 +162,9 @@ static const uint16_t alphafont_table[] =
 
 void seven_segment_init(void)
 {
+    // Initialize the data to something or else it won't be able to clear it out.
+    memset(set_values, 0xFF, sizeof(set_values));
+    
     i2c_byte_write(TIME_ADDRESS, HT16K33_OSC_ON);   
     i2c_byte_write(TIME_ADDRESS, HT16K33_DISPLAYON);
     i2c_byte_write(TIME_ADDRESS, HT16K33_DIM + 15);
@@ -281,9 +286,20 @@ void seven_segment_set_digits(uint8_t address, uint8_t digit_0, uint8_t digit_1,
 
 void seven_segment_set_char_digits(uint8_t address, uint8_t start_digit, char * string, colon_type_t colon_type)
 {
-    for (int i = start_digit, j = 0; (i < 4) && (string[j] != 0); i++, j++)
+    int i = 0;
+    for (; i < start_digit; i++)
+    {
+        seven_segment_blank_digit(address, i);
+    }
+
+    for (int j = 0; (i < 4) && (string[j] != 0); i++, j++)
     {
         seven_segment_set_char_digit(address, i, string[j]);
+    }
+
+    for (; i < 4; i++)
+    {
+        seven_segment_blank_digit(address, i);
     }
 
     seven_segment_set_colon(address, colon_type);
@@ -292,9 +308,10 @@ void seven_segment_set_char_digits(uint8_t address, uint8_t start_digit, char * 
 
 void seven_segment_blank_digits(uint8_t address)
 {
-    seven_segment_blank_digit(address, 0);
-    seven_segment_blank_digit(address, 1);
-    seven_segment_blank_digit(address, 2);
-    seven_segment_blank_digit(address, 3);
+    for (int i = 0; i < 4; i++)
+    {
+        seven_segment_blank_digit(address, i);
+    }
+
     seven_segment_set_colon(address, COLON_TYPE_NONE);
 }
