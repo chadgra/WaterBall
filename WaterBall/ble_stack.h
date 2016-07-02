@@ -32,6 +32,16 @@ typedef enum
 } ble_stack_state_t;
 
 /**
+ * @brief   Struct to contain information about characteristics of the device information service.
+ */
+typedef struct
+{
+    uint16_t    uuid;
+    uint16_t    length;
+    char *      read_value;
+} ble_device_information_characteristic_t;
+
+/**
  * @brief Function for dispatching a BLE stack event to all modules with a BLE stack event handler.
  *
  * @details This function is called from the BLE Stack event interrupt handler after a BLE stack
@@ -64,6 +74,18 @@ void ble_stack_init(void);
  * @details This should be called repeatedly from the main loop.
  */
 void ble_stack_tasks(void);
+
+/**
+ * @brief Function to initialize the device information service.
+ */
+static void ble_device_information_service_init(void);
+
+/**
+ * @brief Function to add characteristics to the device information service.
+ *
+ * @param[in]   characteristic  A struct containing information about this characteristic.
+ */
+static void ble_device_information_characteristic_add(ble_device_information_characteristic_t * characteristic);
 
 #endif //BLE_STACK_H__
 
