@@ -17,13 +17,13 @@
 #include "storage.h"
 
 
-static bool                 m_auto_flash = true;
-static bool                 m_is_locked = false;
-static uint8_t              m_volatile_copy[BLOCK_SIZE] = { 0 };
-static uint8_t              m_flashed_copy[BLOCK_SIZE] = { 0 };
 static storage_state_t      m_storage_state;
 static pstorage_handle_t    m_base_handle;
 static uint32_t             m_event_result;
+static uint8_t              m_volatile_copy[BLOCK_SIZE] __attribute__((aligned (32)));
+static uint8_t              m_flashed_copy[BLOCK_SIZE] __attribute__((aligned (32)));
+static bool                 m_auto_flash = true;
+static bool                 m_is_locked = false;
 
 
 /**

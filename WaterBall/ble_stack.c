@@ -61,7 +61,7 @@ void ble_stack_init(void)
                                                          PERIPHERAL_LINK_COUNT,
                                                          &ble_enable_params));
 
-    ble_enable_params.gatts_enable_params.service_changed = 0;
+    ble_enable_params.gatts_enable_params.service_changed = 1;
 
     // Change the number of uuids from the minimum (1) to the default (10);
     ble_enable_params.common_enable_params.vs_uuid_count = BLE_UUID_VS_COUNT_DEFAULT;
