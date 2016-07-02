@@ -71,6 +71,41 @@ void service_client_try_connect(void);
 uint32_t service_client_get_server_score(void);
 
 /**
+ * @brief   Get the previously written current time.
+ *
+ * @retval      The current time that was previously written to the server.
+ */
+uint32_t service_client_get_current_time(void);
+
+/**
+ * @brief   Get the previously written game time.
+ *
+ * @retval      The game time that was previously written to the server.
+ */
+uint32_t service_client_get_game_time(void);
+
+/**
+ * @brief   Get the previously written vibration value.
+ *
+ * @retval      The vibration value that was previously written to the server.
+ */
+uint32_t service_client_get_vibration(void);
+
+/**
+ * @brief   Get the previously written hole value.
+ *
+ * @retval      The hole value that was previously written to the server.
+ */
+uint32_t service_client_get_hole(void);
+
+/**
+ * @brief   Get the previously written target score.
+ *
+ * @retval      The target score that was previously written to the server.
+ */
+uint32_t service_client_get_target_score(void);
+
+/**
  * @brief   Function for writing to the client score handle of the server.
  *
  * @param[in]   score           The client score to write to the server.

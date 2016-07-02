@@ -322,7 +322,7 @@ static void service_server_read_game_state(ble_evt_t * p_ble_evt)
 static void service_server_write_client_score(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    m_client_score = *write->data;
+    m_client_score = *(uint32_t *)write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
@@ -330,7 +330,7 @@ static void service_server_write_client_score(ble_evt_t * p_ble_evt)
 static void service_server_write_game_time(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    m_game_time = *write->data;
+    m_game_time = *(uint32_t *)write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
@@ -338,7 +338,7 @@ static void service_server_write_game_time(ble_evt_t * p_ble_evt)
 static void service_server_write_vibration(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    m_vibration = *write->data;
+    m_vibration = *(uint32_t *)write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
@@ -346,7 +346,7 @@ static void service_server_write_vibration(ble_evt_t * p_ble_evt)
 static void service_server_write_hole(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    m_hole = *write->data;
+    m_hole = *(uint32_t *)write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
@@ -354,7 +354,7 @@ static void service_server_write_hole(ble_evt_t * p_ble_evt)
 static void service_server_write_current_time(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    m_current_time = *write->data;
+    m_current_time = *(uint32_t *)write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 
@@ -362,7 +362,7 @@ static void service_server_write_current_time(ble_evt_t * p_ble_evt)
 static void service_server_write_target_score(ble_evt_t * p_ble_evt)
 {
     ble_gatts_evt_write_t * write = &p_ble_evt->evt.gatts_evt.params.authorize_request.request.write;
-    m_target_score = *write->data;
+    m_target_score = *(uint32_t *)write->data;
     service_server_write_request_response(BLE_GATT_STATUS_SUCCESS);
 }
 

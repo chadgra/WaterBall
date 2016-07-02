@@ -22,7 +22,7 @@
 static game_state_t         m_game_state;
 static uint32_t             m_my_score;
 static uint32_t             m_their_score;
-static uint32_t             m_game_time = 60000;
+static uint32_t             m_game_time;
 static uint32_t             m_game_init_ticks;
 static uint32_t             m_game_start_ticks;
 
@@ -82,6 +82,7 @@ void game_tasks(void)
         case GAME_STATE_INITIALIZING_GAME:
         {
             m_game_init_ticks = clock_get_ticks();
+            m_game_time = game_get_game_time();
             m_game_state = GAME_STATE_COUNTING_DOWN;
             break;
         }
@@ -143,6 +144,23 @@ void game_tasks(void)
             break;
         }
     }
+}
+
+
+uint32_t game_get_game_time(void)
+{
+    uint32_t game_time = 0;
+
+    if (IS_SERVICE_SERVER)
+    {
+        game_time = service_server_get_game_time();
+    }
+    else if (IS_SERVICE_CLIENT)
+    {
+        game_time = service_client_get_game_time();
+    }
+
+    return game_time;
 }
 
 
@@ -240,7 +258,7 @@ static void game_print_time(uint32_t ms, time_scale_t time_scale)
             break;
     }
 
-    uint32_t size = snprintf(buffer, sizeof(buffer), "\t%02d:%02d", left_time, right_time);
+    uint32_t size = snprintf(buffer, sizeof(buffer), "\r\t%02d:%02d", left_time, right_time);
     serial_write((uint8_t *)buffer, size);
 
     seven_segment_set_numbers(TIME_ADDRESS, left_time, right_time, COLON_TYPE_COLON);

@@ -63,6 +63,13 @@ void game_init(void);
 void game_tasks(void);
 
 /**
+ * @brief   Function to get the game time.
+ *
+ * @retval      The game time.
+ */
+uint32_t game_get_game_time(void);
+
+/**
  * @brief   Function to get my score.
  *
  * @retval      My current score.

@@ -20,6 +20,11 @@ static uint16_t             m_service_handle;
 static uint16_t             m_conn_handle;
 static service_info_t       m_info = { 0 };
 static uint32_t             m_server_score;
+static uint32_t             m_current_time;
+static uint32_t             m_game_time;
+static uint32_t             m_vibration;
+static uint32_t             m_hole;
+static uint32_t             m_target_score;
 static uint32_t             m_time;
 
 
@@ -75,19 +80,38 @@ void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
         {
             // We got a response from the INFO characteristic, copy them into m_info.
             ble_gattc_evt_read_rsp_t * p_read_rsp = &p_ble_gattc_evt->params.read_rsp;
-            if ((m_service_handle + SERVICE_INFO_ATTR_OFFSET) != p_read_rsp->handle)
+            if ((m_service_handle + SERVICE_INFO_ATTR_OFFSET) == p_read_rsp->handle)
             {
-                return;
+                memcpy(((uint8_t *)&m_info) + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
+
+                // Enable server score and game time indicate.
+                uint16_t write_value = BLE_GATT_HVX_INDICATION;
+                service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.server_score_handle), sizeof(write_value), &write_value);
+                service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.game_time_handle), sizeof(write_value), &write_value);
+
+                sd_ble_gattc_read(m_conn_handle, m_info.game_time_handle, 0);
+            }
+            else if (m_info.game_time_handle == p_read_rsp->handle)
+            {
+                memcpy(&m_game_time + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
+                sd_ble_gattc_read(m_conn_handle, m_info.vibration_handle, 0);
+            }
+            else if (m_info.vibration_handle == p_read_rsp->handle)
+            {
+                memcpy(&m_vibration + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
+                sd_ble_gattc_read(m_conn_handle, m_info.hole_handle, 0);
+            }
+            else if (m_info.hole_handle == p_read_rsp->handle)
+            {
+                memcpy(&m_hole + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
+                sd_ble_gattc_read(m_conn_handle, m_info.target_score_handle, 0);
+            }
+            else if (m_info.target_score_handle == p_read_rsp->handle)
+            {
+                memcpy(&m_target_score + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
             }
 
-            memcpy(((uint8_t *)&m_info) + p_read_rsp->offset, p_read_rsp->data, p_read_rsp->len);
-
-            // Enable server score and game time indicate.
-            uint16_t write_value = BLE_GATT_HVX_INDICATION;
-            service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.server_score_handle), sizeof(write_value), &write_value);
-            service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.game_time_handle), sizeof(write_value), &write_value);
             m_service_client_state = SERVICE_CLIENT_STATE_CONNECTED;
-
             break;
         }
         case BLE_GATTC_EVT_WRITE_RSP:
@@ -190,6 +214,36 @@ void service_client_try_connect(void)
 uint32_t service_client_get_server_score(void)
 {
     return m_server_score;
+}
+
+
+uint32_t service_client_get_current_time(void)
+{
+    return m_current_time;
+}
+
+
+uint32_t service_client_get_game_time(void)
+{
+    return m_game_time;
+}
+
+
+uint32_t service_client_get_vibration(void)
+{
+    return m_vibration;
+}
+
+
+uint32_t service_client_get_hole(void)
+{
+    return m_hole;
+}
+
+
+uint32_t service_client_get_target_score(void)
+{
+    return m_target_score;
 }
 
 
