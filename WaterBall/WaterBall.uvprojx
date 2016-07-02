@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define>BSP_DEFINES_ONLY BLE_STACK_SUPPORT_REQD S130 BOARD_PCA10028 SOFTDEVICE_PRESENT NRF51 DEBUG SWI_DISABLE0</Define>
               <Undefine></Undefine>
-              <IncludePath>.;.\Config;.\nRF5_SDK\components\ble\common;.\nRF5_SDK\components\drivers_nrf\clock;.\nRF5_SDK\components\drivers_nrf\common;.\nRF5_SDK\components\drivers_nrf\delay;.\nRF5_SDK\components\drivers_nrf\gpiote;.\nRF5_SDK\components\drivers_nrf\hal;.\nRF5_SDK\components\drivers_nrf\twi_master;.\nRF5_SDK\components\drivers_nrf\uart;.\nRF5_SDK\components\libraries\button;.\nRF5_SDK\components\libraries\fifo;.\nRF5_SDK\components\libraries\timer;.\nRF5_SDK\components\libraries\twi;.\nRF5_SDK\components\libraries\uart;.\nRF5_SDK\components\libraries\util;.\nRF5_SDK\components\softdevice\common\softdevice_handler;.\nRF5_SDK\components\softdevice\s130\headers;.\nRF5_SDK\examples\bsp</IncludePath>
+              <IncludePath>.;..\Config;..\nRF5_SDK\components\ble\common;..\nRF5_SDK\components\drivers_nrf\clock;..\nRF5_SDK\components\drivers_nrf\common;..\nRF5_SDK\components\drivers_nrf\delay;..\nRF5_SDK\components\drivers_nrf\gpiote;..\nRF5_SDK\components\drivers_nrf\hal;..\nRF5_SDK\components\drivers_nrf\twi_master;..\nRF5_SDK\components\drivers_nrf\uart;..\nRF5_SDK\components\libraries\button;..\nRF5_SDK\components\libraries\fifo;..\nRF5_SDK\components\libraries\timer;..\nRF5_SDK\components\libraries\twi;..\nRF5_SDK\components\libraries\uart;..\nRF5_SDK\components\libraries\util;..\nRF5_SDK\components\softdevice\common\softdevice_handler;..\nRF5_SDK\components\softdevice\s130\headers;..\nRF5_SDK\examples\bsp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -458,12 +458,12 @@
             <File>
               <FileName>ble_advdata.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\ble\common\ble_advdata.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\ble\common\ble_advdata.c</FilePath>
             </File>
             <File>
               <FileName>ble_srv_common.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\ble\common\ble_srv_common.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\ble\common\ble_srv_common.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -473,32 +473,32 @@
             <File>
               <FileName>nrf_delay.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\drivers_nrf\delay\nrf_delay.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\delay\nrf_delay.c</FilePath>
             </File>
             <File>
               <FileName>nrf_drv_clock.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\drivers_nrf\clock\nrf_drv_clock.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\clock\nrf_drv_clock.c</FilePath>
             </File>
             <File>
               <FileName>nrf_drv_common.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\drivers_nrf\common\nrf_drv_common.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\common\nrf_drv_common.c</FilePath>
             </File>
             <File>
               <FileName>nrf_drv_gpiote.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\drivers_nrf\gpiote\nrf_drv_gpiote.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\gpiote\nrf_drv_gpiote.c</FilePath>
             </File>
             <File>
               <FileName>nrf_drv_uart.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\drivers_nrf\uart\nrf_drv_uart.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\uart\nrf_drv_uart.c</FilePath>
             </File>
             <File>
               <FileName>nrf_drv_twi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\drivers_nrf\twi_master\nrf_drv_twi.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\twi_master\nrf_drv_twi.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -508,42 +508,42 @@
             <File>
               <FileName>app_button.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\button\app_button.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\button\app_button.c</FilePath>
             </File>
             <File>
               <FileName>app_error.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\util\app_error.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\util\app_error.c</FilePath>
             </File>
             <File>
               <FileName>app_error_weak.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\util\app_error_weak.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\util\app_error_weak.c</FilePath>
             </File>
             <File>
               <FileName>app_fifo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\fifo\app_fifo.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\fifo\app_fifo.c</FilePath>
             </File>
             <File>
               <FileName>app_timer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\timer\app_timer.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\timer\app_timer.c</FilePath>
             </File>
             <File>
               <FileName>app_uart_fifo.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\uart\app_uart_fifo.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\uart\app_uart_fifo.c</FilePath>
             </File>
             <File>
               <FileName>app_util_platform.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\util\app_util_platform.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\util\app_util_platform.c</FilePath>
             </File>
             <File>
               <FileName>app_twi.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\libraries\twi\app_twi.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\libraries\twi\app_twi.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -553,12 +553,12 @@
             <File>
               <FileName>softdevice_handler.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\nRF5_SDK\components\softdevice\common\softdevice_handler\softdevice_handler.c</FilePath>
+              <FilePath>..\nRF5_SDK\components\softdevice\common\softdevice_handler\softdevice_handler.c</FilePath>
             </File>
             <File>
               <FileName>s130_nrf51_2.0.0_licence_agreement.txt</FileName>
               <FileType>5</FileType>
-              <FilePath>.\nRF5_SDK\components\softdevice\s130\doc\s130_nrf51_2.0.0_licence_agreement.txt</FilePath>
+              <FilePath>..\nRF5_SDK\components\softdevice\s130\doc\s130_nrf51_2.0.0_licence_agreement.txt</FilePath>
             </File>
           </Files>
         </Group>

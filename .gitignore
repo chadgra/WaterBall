@@ -59,7 +59,7 @@
 **/*.uvguix.*
 **/*.uvopt
 **/*.uvoptx
-/RTE/*
+**/RTE/*
 
 # Appaloosa specific files
 */version.h
