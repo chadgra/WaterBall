@@ -23,12 +23,14 @@
 #include "service.h"
 #include "seven_segment.h"
 #include "status.h"
+#include "storage.h"
 
 /**
  * @brief Function for main application entry.
  */
 int main(void)
 {
+    storage_init();
     status_init();
     ble_stack_init();
     buttons_init();
@@ -44,6 +46,7 @@ int main(void)
 
     while (true)
     {
+        storage_tasks();
         status_tasks();
         ble_stack_tasks();
         buttons_tasks();

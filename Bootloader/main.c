@@ -152,23 +152,6 @@ static void scheduler_init(void)
 
 
 /**
- * @brief Function for updating the ble address to the custom address set by the application.
- */
-static void address_init(void)
-{
-    ble_gap_addr_t addr;
-
-    // Our specifically set address is at the beginning of the 2nd page of pstorage.
-    uint8_t * pstorage_second_page = (uint8_t *)(PSTORAGE_DATA_START_ADDR + PSTORAGE_FLASH_PAGE_SIZE);
-    memcpy(&addr, pstorage_second_page, sizeof(ble_gap_addr_t));
-    if (PSTORAGE_FLASH_EMPTY_MASK != (*(uint32_t *)&addr))
-    {
-        APP_ERROR_CHECK(sd_ble_gap_address_set(BLE_GAP_ADDR_CYCLE_MODE_NONE, &addr));
-    }
-}
-
-
-/**
  * @brief Function for bootloader main entry.
  */
 int main(void)
@@ -211,7 +194,6 @@ int main(void)
     }
 
     dfu_start  = app_reset;
-    address_init();
 
     if (dfu_start || (!bootloader_app_is_valid(DFU_BANK_0_REGION_START)))
     {

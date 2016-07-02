@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define>BSP_DEFINES_ONLY BLE_STACK_SUPPORT_REQD S130 BOARD_PCA10028 SOFTDEVICE_PRESENT NRF51 DEBUG SWI_DISABLE0</Define>
               <Undefine></Undefine>
-              <IncludePath>.;..\Config;..\nRF5_SDK\components\ble\common;..\nRF5_SDK\components\drivers_nrf\clock;..\nRF5_SDK\components\drivers_nrf\common;..\nRF5_SDK\components\drivers_nrf\delay;..\nRF5_SDK\components\drivers_nrf\gpiote;..\nRF5_SDK\components\drivers_nrf\hal;..\nRF5_SDK\components\drivers_nrf\twi_master;..\nRF5_SDK\components\drivers_nrf\uart;..\nRF5_SDK\components\libraries\button;..\nRF5_SDK\components\libraries\fifo;..\nRF5_SDK\components\libraries\timer;..\nRF5_SDK\components\libraries\twi;..\nRF5_SDK\components\libraries\uart;..\nRF5_SDK\components\libraries\util;..\nRF5_SDK\components\softdevice\common\softdevice_handler;..\nRF5_SDK\components\softdevice\s130\headers;..\nRF5_SDK\examples\bsp</IncludePath>
+              <IncludePath>.;..\Config;..\nRF5_SDK\components\ble\common;..\nRF5_SDK\components\drivers_nrf\clock;..\nRF5_SDK\components\drivers_nrf\common;..\nRF5_SDK\components\drivers_nrf\delay;..\nRF5_SDK\components\drivers_nrf\gpiote;..\nRF5_SDK\components\drivers_nrf\hal;..\nRF5_SDK\components\drivers_nrf\pstorage;..\nRF5_SDK\components\drivers_nrf\twi_master;..\nRF5_SDK\components\drivers_nrf\uart;..\nRF5_SDK\components\libraries\button;..\nRF5_SDK\components\libraries\fifo;..\nRF5_SDK\components\libraries\timer;..\nRF5_SDK\components\libraries\twi;..\nRF5_SDK\components\libraries\uart;..\nRF5_SDK\components\libraries\util;..\nRF5_SDK\components\softdevice\common\softdevice_handler;..\nRF5_SDK\components\softdevice\s130\headers;..\nRF5_SDK\examples\bsp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -450,6 +450,11 @@
               <FileType>1</FileType>
               <FilePath>.\status.c</FilePath>
             </File>
+            <File>
+              <FileName>storage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\storage.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -499,6 +504,11 @@
               <FileName>nrf_drv_twi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\nRF5_SDK\components\drivers_nrf\twi_master\nrf_drv_twi.c</FilePath>
+            </File>
+            <File>
+              <FileName>pstorage.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\nRF5_SDK\components\drivers_nrf\pstorage\pstorage.c</FilePath>
             </File>
           </Files>
         </Group>
