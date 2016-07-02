@@ -1,0 +1,25 @@
+/**
+ * @file
+ * @defgroup WaterBall version.h
+ * @{
+ * @ingroup WaterBall
+ * @brief WaterBall version header file.
+ *
+ * This file is generated using the GitVersionNumber tool in the Tools folder.
+ * Any changes to this file will be lost when the code is next build. To make
+ * permanent changes go to the file "version.h.git".
+ */
+
+#ifndef VERSION_H__
+#define VERSION_H__
+
+#define FIRMWARE_VERSION                "$GITVERSION$.$GITMODCOUNT$.$GITHASH7$"
+#define BRANCH_NAME                     "$GITBRANCHNAME$"
+#define COMMIT_DATE                     "$GITCOMMITDATE$"
+#define BUILD_DATE                      "$GITBUILDDATE$"
+#define HASH                            "$GITHASH$$GITMODS?-dirty:$"
+#define COMMIT_NUMBER                   ($GITCOMMITNUMBER$)
+
+#endif //VERSION_H__
+
+/** @} */
