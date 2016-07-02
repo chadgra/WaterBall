@@ -332,7 +332,7 @@
               <MiscControls></MiscControls>
               <Define>BSP_DEFINES_ONLY BLE_STACK_SUPPORT_REQD S130 BOARD_PCA10028 SOFTDEVICE_PRESENT NRF51 DEBUG SWI_DISABLE0</Define>
               <Undefine></Undefine>
-              <IncludePath>.;..\Config;..\nRF5_SDK\components\ble\common;..\nRF5_SDK\components\drivers_nrf\clock;..\nRF5_SDK\components\drivers_nrf\common;..\nRF5_SDK\components\drivers_nrf\delay;..\nRF5_SDK\components\drivers_nrf\gpiote;..\nRF5_SDK\components\drivers_nrf\hal;..\nRF5_SDK\components\drivers_nrf\pstorage;..\nRF5_SDK\components\drivers_nrf\twi_master;..\nRF5_SDK\components\drivers_nrf\uart;..\nRF5_SDK\components\libraries\button;..\nRF5_SDK\components\libraries\fifo;..\nRF5_SDK\components\libraries\timer;..\nRF5_SDK\components\libraries\twi;..\nRF5_SDK\components\libraries\uart;..\nRF5_SDK\components\libraries\util;..\nRF5_SDK\components\softdevice\common\softdevice_handler;..\nRF5_SDK\components\softdevice\s130\headers;..\nRF5_SDK\examples\bsp</IncludePath>
+              <IncludePath>.;..\Config;..\nRF5_SDK\components\ble\ble_services\ble_dfu;..\nRF5_SDK\components\ble\common;..\nRF5_SDK\components\ble\device_manager;..\nRF5_SDK\components\ble\device_manager\config;..\nRF5_SDK\components\drivers_nrf\clock;..\nRF5_SDK\components\drivers_nrf\common;..\nRF5_SDK\components\drivers_nrf\delay;..\nRF5_SDK\components\drivers_nrf\gpiote;..\nRF5_SDK\components\drivers_nrf\hal;..\nRF5_SDK\components\drivers_nrf\pstorage;..\nRF5_SDK\components\drivers_nrf\twi_master;..\nRF5_SDK\components\drivers_nrf\uart;..\nRF5_SDK\components\libraries\bootloader_dfu;..\nRF5_SDK\components\libraries\button;..\nRF5_SDK\components\libraries\fifo;..\nRF5_SDK\components\libraries\timer;..\nRF5_SDK\components\libraries\trace;..\nRF5_SDK\components\libraries\twi;..\nRF5_SDK\components\libraries\uart;..\nRF5_SDK\components\libraries\util;..\nRF5_SDK\components\softdevice\common\softdevice_handler;..\nRF5_SDK\components\softdevice\s130\headers;..\nRF5_SDK\examples\bsp</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -399,6 +399,16 @@
               <FileName>connect.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\connect.c</FilePath>
+            </File>
+            <File>
+              <FileName>dev_man.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dev_man.c</FilePath>
+            </File>
+            <File>
+              <FileName>dfu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dfu.c</FilePath>
             </File>
             <File>
               <FileName>discovery.c</FileName>
@@ -469,6 +479,16 @@
               <FileName>ble_srv_common.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\nRF5_SDK\components\ble\common\ble_srv_common.c</FilePath>
+            </File>
+            <File>
+              <FileName>ble_dfu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\nRF5_SDK\components\ble\ble_services\ble_dfu\ble_dfu.c</FilePath>
+            </File>
+            <File>
+              <FileName>device_manager_peripheral.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\nRF5_SDK\components\ble\device_manager\device_manager_peripheral.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -554,6 +574,16 @@
               <FileName>app_twi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\nRF5_SDK\components\libraries\twi\app_twi.c</FilePath>
+            </File>
+            <File>
+              <FileName>bootloader_util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\nRF5_SDK\components\libraries\bootloader_dfu\bootloader_util.c</FilePath>
+            </File>
+            <File>
+              <FileName>dfu_app_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\nRF5_SDK\components\libraries\bootloader_dfu\dfu_app_handler.c</FilePath>
             </File>
           </Files>
         </Group>

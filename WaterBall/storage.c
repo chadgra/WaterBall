@@ -1,9 +1,9 @@
 /**
  * @file
- * @defgroup Appaloosa storage.c
+ * @defgroup WaterBall storage.c
  * @{
- * @ingroup Appaloosa
- * @brief Appaloosa persistant storage module.
+ * @ingroup WaterBall
+ * @brief WaterBall persistant storage module.
  */
 
 #include <string.h>

@@ -16,6 +16,8 @@
 #include "buttons.h"
 #include "clock.h"
 #include "connect.h"
+#include "dev_man.h"
+#include "dfu.h"
 #include "discovery.h"
 #include "game.h"
 #include "i2c.h"
@@ -30,13 +32,15 @@
  */
 int main(void)
 {
+    ble_stack_init();
+    dev_man_init();                 /**< Run before storage_init, since it also uses pstorage and will initialize it. */
     storage_init();
     status_init();
-    ble_stack_init();
     buttons_init();
     clock_init();
     serial_init();
     service_init();
+    dfu_init();                     /**< Initialize after the service, or else it won't work. */
     advertise_init();
     discovery_init();
     connect_init();
@@ -46,13 +50,15 @@ int main(void)
 
     while (true)
     {
+        ble_stack_tasks();
+        dev_man_tasks();
         storage_tasks();
         status_tasks();
-        ble_stack_tasks();
         buttons_tasks();
         clock_tasks();
         serial_tasks();
         service_tasks();
+        dfu_tasks();
         advertise_tasks();
         discovery_tasks();
         connect_tasks();
