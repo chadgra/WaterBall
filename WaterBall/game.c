@@ -25,6 +25,7 @@ static uint32_t             m_their_score;
 static uint32_t             m_game_time = 60000;
 static uint32_t             m_game_init_ticks;
 static uint32_t             m_game_start_ticks;
+static uint32_t             m_water_start_ticks;
 
 
 void game_event_handler(uint8_t pin_number, uint8_t button_action)
@@ -47,14 +48,32 @@ void game_event_handler(uint8_t pin_number, uint8_t button_action)
                 // Otherwise stop the game.
                 m_game_state = GAME_STATE_INIT;
             }
-            
+
             break;
         case BUTTON_3:
-            game_increment_my_score(1);
+            if (GAME_STATE_PLAYING == m_game_state)
+            {
+                game_increment_my_score(1);
+            }
+
             break;
         case BUTTON_4:
         {
-            game_set_my_score(MAX_SCORE);
+            if ((GAME_STATE_WAITING == m_game_state) && IS_SERVICE_SERVER)
+            {
+                // Start the game if we are waiting.
+                m_game_state = GAME_STATE_INITIALIZING_GAME;
+            }
+            else if (GAME_STATE_PLAYING == m_game_state)
+            {
+                game_set_my_score(MAX_SCORE);
+            }
+            else
+            {
+                // Otherwise stop the game.
+                m_game_state = GAME_STATE_INIT;
+            }
+
             break;
         }
         default:
@@ -83,6 +102,7 @@ void game_tasks(void)
                 service_server_indicate_game_state(GAME_STATE_INIT);
             }
 
+            LEDS_ON(BSP_LED_3_MASK);
             seven_segment_blank_digits(TIME_ADDRESS);
             seven_segment_blank_digits(SCORE_ADDRESS);
             m_game_state = GAME_STATE_WAITING;
@@ -152,10 +172,25 @@ void game_tasks(void)
         {
             game_print_end(my_score, their_score);
 
+            m_water_start_ticks = clock_get_ticks();
+            m_game_state = GAME_STATE_WATER;
+            if (my_score >= their_score)
+            {
+                // Always go to the water state, but only turn on the led if we lost.
+                LEDS_OFF(BSP_LED_3_MASK);
+            }
+
             break;
         }
-        case GAME_STATE_MAX_SCORE:
+        case GAME_STATE_WATER:
         {
+            uint32_t water_ticks = CLOCK_MS_IN_TICKS(7000);
+            if (clock_ticks_have_passed(m_water_start_ticks, water_ticks))
+            {
+                LEDS_ON(BSP_LED_3_MASK);
+                m_game_state = GAME_STATE_INIT;
+            }
+
             break;
         }
         case GAME_STATE_ERROR:
@@ -209,7 +244,8 @@ void game_set_my_score(uint32_t score)
 
 uint32_t game_increment_my_score(uint32_t points)
 {
-    game_set_my_score(m_my_score + points);
+    uint32_t new_score = (MAX_SCORE - m_my_score) > points ? m_my_score + points : MAX_SCORE;
+    game_set_my_score(new_score);
     return m_my_score;
 }
 
@@ -303,8 +339,8 @@ static void game_print_end(uint32_t my_score, uint32_t their_score)
     }
     else
     {
-        seven_segment_blank_digits(SCORE_ADDRESS);
-        seven_segment_blank_digits(TIME_ADDRESS);
+        seven_segment_set_char_digits(SCORE_ADDRESS, 0, "WJin", COLON_TYPE_NONE);
+        seven_segment_set_char_digits(TIME_ADDRESS, 0, "WJin", COLON_TYPE_NONE);
     }
 }
 

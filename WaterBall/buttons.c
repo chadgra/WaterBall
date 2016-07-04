@@ -35,9 +35,6 @@ static void button_event_handler(uint8_t pin_number, uint8_t button_action)
         case BUTTON_3:
             LEDS_INVERT(BSP_LED_2_MASK);
             break;
-        case BUTTON_4:
-            LEDS_INVERT(BSP_LED_3_MASK);
-            break;
         default:
             break;
     }

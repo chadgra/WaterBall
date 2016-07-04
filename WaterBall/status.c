@@ -17,6 +17,7 @@ void status_init(void)
 {
     LEDS_CONFIGURE(LEDS_MASK);
     LEDS_OFF(LEDS_MASK);
+    LEDS_ON(BSP_LED_3_MASK);
 }
 
 

@@ -33,8 +33,6 @@
  */
 int main(void)
 {
-    LEDS_CONFIGURE(LEDS_MASK);
-    LEDS_OFF(LEDS_MASK);
     ble_stack_init();
     dev_man_init();                 /**< Run before storage_init, since it also uses pstorage and will initialize it. */
     storage_init();

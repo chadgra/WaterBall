@@ -32,6 +32,7 @@ typedef enum
     GAME_STATE_START,                   /**< Display that we can now start. */
     GAME_STATE_PLAYING,                 /**< We are now playing the game. */
     GAME_STATE_GAME_OVER,               /**< The game is over. */
+    GAME_STATE_WATER,                   /**< The loser gets squirted. */
     GAME_STATE_TIME_UP,                 /**< Time is up, decide who gets wet. */
     GAME_STATE_MAX_SCORE,               /**< Some one reached the max score, so figure out who gets wet. */
     GAME_STATE_ERROR                    /**< Throw an error message if it occurred in the interrupt handler. */
