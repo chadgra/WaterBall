@@ -81,6 +81,9 @@ void ble_stack_init(void)
     // Add the device information service.
     ble_device_information_service_init();
 
+    // Increase the default power.
+    sd_ble_gap_tx_power_set(4);
+
     m_ble_stack_state = BLE_STACK_STATE_INIT;
 }
 

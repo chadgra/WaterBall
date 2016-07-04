@@ -12,7 +12,7 @@ void i2c_init(void)
     {
        .scl                = TWI_SCL_M,
        .sda                = TWI_SDA_M,
-       .frequency          = NRF_TWI_FREQ_400K,
+       .frequency          = NRF_TWI_FREQ_100K,
        .interrupt_priority = APP_IRQ_PRIORITY_HIGH
     };
 

@@ -21,6 +21,7 @@
 #include "discovery.h"
 #include "game.h"
 #include "i2c.h"
+#include "ir_led.h"
 #include "serial.h"
 #include "service.h"
 #include "seven_segment.h"
@@ -48,7 +49,9 @@ int main(void)
     connect_init();
     i2c_init();
     seven_segment_init();
+    ir_led_init();
     game_init();
+
 
     while (true)
     {
@@ -66,6 +69,7 @@ int main(void)
         connect_tasks();
         i2c_tasks();
         seven_segment_tasks();
+        ir_led_tasks();
         game_tasks();
     }
 }
