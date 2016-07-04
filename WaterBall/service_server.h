@@ -148,6 +148,13 @@ void service_server_indicate_server_score(uint32_t score);
 void service_server_indicate_game_time(uint32_t ms_remaining);
 
 /**
+ * @brief   Create a game state indication.
+ *
+ * @param[in]   state    The state.
+ */
+void service_server_indicate_game_state(uint32_t state);
+
+/**
  * @brief   Handle a read of the service info.
  *
  * @param[in]   p_ble_evt       The event data.

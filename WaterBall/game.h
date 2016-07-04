@@ -17,6 +17,7 @@
 #include "ble_types.h"
 
 #define BUFFER_LEN              (128)
+#define MAX_SCORE               (UINT32_MAX)
 
 /**
  * @brief   service server module states.
@@ -30,6 +31,7 @@ typedef enum
     GAME_STATE_COUNTING_DOWN,           /**< Count down until the start of the game. */
     GAME_STATE_START,                   /**< Display that we can now start. */
     GAME_STATE_PLAYING,                 /**< We are now playing the game. */
+    GAME_STATE_GAME_OVER,               /**< The game is over. */
     GAME_STATE_TIME_UP,                 /**< Time is up, decide who gets wet. */
     GAME_STATE_MAX_SCORE,               /**< Some one reached the max score, so figure out who gets wet. */
     GAME_STATE_ERROR                    /**< Throw an error message if it occurred in the interrupt handler. */
@@ -99,6 +101,8 @@ uint32_t game_increment_my_score(uint32_t points);
  */
 uint32_t game_get_their_score(void);
 
+void game_set_state(game_state_t state);
+
 static void game_print_start(uint32_t ms);
 
 static void game_print_score(uint32_t my_score, uint32_t their_score);
@@ -110,6 +114,8 @@ static void game_print_score(uint32_t my_score, uint32_t their_score);
  * @param[in]   time_scale  The 
  */
 static void game_print_time(uint32_t ms, time_scale_t time_scale);
+
+static void game_print_end(uint32_t my_score, uint32_t their_score);
 
 #endif //GAME_H__
 

@@ -192,15 +192,15 @@ static void seven_segment_set_digit_raw(uint8_t address, uint8_t digit, uint8_t 
         return;
     }
 
-    uint8_t address_index = address - HT16K33_BASE_ADDRESS;
-    uint8_t * p_current_data = &set_values[address_index].digits[digit];
-    if (*p_current_data == data)
-    {
-        // It is already set to this value, so don't worry about doing it again.
-        return;
-    }
+//    uint8_t address_index = address - HT16K33_BASE_ADDRESS;
+//    uint8_t * p_current_data = &set_values[address_index].digits[digit];
+//    if (*p_current_data == data)
+//    {
+//        // It is already set to this value, so don't worry about doing it again.
+//        return;
+//    }
 
-    *p_current_data = data;
+//    *p_current_data = data;
 
     // Skip over colon at position 2
     if (1 < digit)

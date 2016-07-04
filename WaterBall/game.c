@@ -22,7 +22,7 @@
 static game_state_t         m_game_state;
 static uint32_t             m_my_score;
 static uint32_t             m_their_score;
-static uint32_t             m_game_time;
+static uint32_t             m_game_time = 60000;
 static uint32_t             m_game_init_ticks;
 static uint32_t             m_game_start_ticks;
 
@@ -52,6 +52,11 @@ void game_event_handler(uint8_t pin_number, uint8_t button_action)
         case BUTTON_3:
             game_increment_my_score(1);
             break;
+        case BUTTON_4:
+        {
+            game_set_my_score(MAX_SCORE);
+            break;
+        }
         default:
             break;
     }
@@ -66,10 +71,18 @@ void game_init(void)
 
 void game_tasks(void)
 {
+    uint32_t my_score = game_get_my_score();
+    uint32_t their_score = game_get_their_score();
+
     switch (m_game_state)
     {
         case GAME_STATE_INIT:
         {
+            if (IS_SERVICE_SERVER)
+            {
+                service_server_indicate_game_state(GAME_STATE_INIT);
+            }
+
             seven_segment_blank_digits(TIME_ADDRESS);
             seven_segment_blank_digits(SCORE_ADDRESS);
             m_game_state = GAME_STATE_WAITING;
@@ -81,8 +94,13 @@ void game_tasks(void)
         }
         case GAME_STATE_INITIALIZING_GAME:
         {
+            if (IS_SERVICE_SERVER)
+            {
+                service_server_indicate_game_state(GAME_STATE_INITIALIZING_GAME);
+            }
+
             m_game_init_ticks = clock_get_ticks();
-            m_game_time = game_get_game_time();
+            game_set_my_score(0);
             m_game_state = GAME_STATE_COUNTING_DOWN;
             break;
         }
@@ -115,20 +133,25 @@ void game_tasks(void)
             uint32_t ms = clock_ms_until(m_game_start_ticks, play_ticks);
             if (clock_ticks_have_passed(m_game_start_ticks, play_ticks))
             {
-                m_game_state = GAME_STATE_TIME_UP;
+                m_game_state = GAME_STATE_GAME_OVER;
             }
 
             game_print_time(ms, TIME_SCALE_AUTO);
 
             // Score
-            uint32_t my_score = game_get_my_score();
-            uint32_t their_score = game_get_their_score();
             game_print_score(my_score, their_score);
+
+            if ((MAX_SCORE == my_score) || (MAX_SCORE == their_score))
+            {
+                m_game_state = GAME_STATE_GAME_OVER;
+            }
 
             break;
         }
-        case GAME_STATE_TIME_UP:
+        case GAME_STATE_GAME_OVER:
         {
+            game_print_end(my_score, their_score);
+
             break;
         }
         case GAME_STATE_MAX_SCORE:
@@ -206,6 +229,12 @@ uint32_t game_get_their_score(void)
 }
 
 
+void game_set_state(game_state_t state)
+{
+    m_game_state = state;
+}
+
+
 static void game_print_start(uint32_t ms)
 {
     char count_string[] = "4321";
@@ -262,6 +291,21 @@ static void game_print_time(uint32_t ms, time_scale_t time_scale)
     serial_write((uint8_t *)buffer, size);
 
     seven_segment_set_numbers(TIME_ADDRESS, left_time, right_time, COLON_TYPE_COLON);
+}
+
+
+static void game_print_end(uint32_t my_score, uint32_t their_score)
+{
+    if (my_score >= their_score)
+    {
+        seven_segment_set_char_digits(SCORE_ADDRESS, 0, "LOSE", COLON_TYPE_NONE);
+        seven_segment_set_char_digits(TIME_ADDRESS, 0, "LOSE", COLON_TYPE_NONE);
+    }
+    else
+    {
+        seven_segment_blank_digits(SCORE_ADDRESS);
+        seven_segment_blank_digits(TIME_ADDRESS);
+    }
 }
 
 

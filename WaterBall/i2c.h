@@ -8,8 +8,8 @@
 #include <stdint.h>
 #include "app_error.h"
 
-#define TWI_SCL_M                   3                               //!< Master SCL pin
-#define TWI_SDA_M                   4                               //!< Master SDA pin
+#define TWI_SCL_M                   4                               //!< Master SCL pin
+#define TWI_SDA_M                   3                               //!< Master SDA pin
 
 #define MASTER_TWI_INST             0                               //!< MASTERTWI interface 
 

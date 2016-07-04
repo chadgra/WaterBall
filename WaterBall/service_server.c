@@ -186,6 +186,7 @@ bool service_server_is_connected(void)
 
 static void service_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len, void * p_value)
 {
+    uint32_t err_code;
     if (m_conn_handle == BLE_CONN_HANDLE_INVALID)
     {
         return;
@@ -198,7 +199,11 @@ static void service_server_hvx_send(uint8_t type, uint16_t handle, uint16_t len,
     hvx_params.p_len  = &len;
     hvx_params.p_data = p_value;
 
-    uint32_t err_code = sd_ble_gatts_hvx(m_conn_handle, &hvx_params);
+    do
+    {
+        err_code = sd_ble_gatts_hvx(m_conn_handle, &hvx_params);
+    } while (NRF_ERROR_BUSY == err_code);
+
     if (NRF_ERROR_INVALID_STATE != err_code)
     {
         APP_ERROR_CHECK(err_code);
@@ -252,6 +257,12 @@ void service_server_indicate_server_score(uint32_t score)
 void service_server_indicate_game_time(uint32_t ms_remaining)
 {
     service_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.game_time_handle, sizeof(ms_remaining), &ms_remaining);
+}
+
+
+void service_server_indicate_game_state(uint32_t state)
+{
+    service_server_hvx_send(BLE_GATT_HVX_INDICATION, m_info.game_state_handle, sizeof(state), &state);
 }
 
 

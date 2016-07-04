@@ -4,6 +4,8 @@
 
 static const nrf_drv_twi_t m_twi_master = NRF_DRV_TWI_INSTANCE(MASTER_TWI_INST);
 
+#define NUM_TRIES                       50
+
 void i2c_init(void)
 {
     const nrf_drv_twi_config_t config =
@@ -26,7 +28,7 @@ void i2c_tasks(void)
 
 void i2c_byte_write(uint8_t address, uint8_t data)
 {
-    int i = 4;
+    int i = NUM_TRIES;
     uint32_t result;
     do
     {
@@ -38,7 +40,7 @@ void i2c_byte_write(uint8_t address, uint8_t data)
 
 void i2c_data_write(uint8_t address, uint8_t * p_data, uint32_t size)
 {
-    int i = 4;
+    int i = NUM_TRIES;
     uint32_t result;
     do
     {

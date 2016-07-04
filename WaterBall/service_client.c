@@ -10,6 +10,7 @@
 #include "app_util_platform.h"
 #include "ble_hci.h"
 #include "ble_srv_common.h"
+#include "game.h"
 #include "service.h"
 #include "service_client.h"
 #include "sdk_common.h"
@@ -88,6 +89,7 @@ void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
                 uint16_t write_value = BLE_GATT_HVX_INDICATION;
                 service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.server_score_handle), sizeof(write_value), &write_value);
                 service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.game_time_handle), sizeof(write_value), &write_value);
+                service_client_write(BLE_GATT_OP_WRITE_CMD, CONFIG_HANDLE(m_info.game_state_handle), sizeof(write_value), &write_value);
 
                 sd_ble_gattc_read(m_conn_handle, m_info.game_time_handle, 0);
             }
@@ -128,6 +130,12 @@ void service_client_on_ble_evt(ble_evt_t * p_ble_evt)
             else if (p_hvx->handle == m_info.game_time_handle)
             {
                 memcpy(&m_time, p_hvx->data, p_hvx->len);
+            }
+            else if (p_hvx->handle == m_info.game_state_handle)
+            {
+                uint32_t state;
+                memcpy(&state, p_hvx->data, p_hvx->len);
+                game_set_state((game_state_t)state);
             }
 
             if (BLE_GATT_HVX_INDICATION == p_hvx->type)
