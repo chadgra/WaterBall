@@ -27,6 +27,7 @@
 #include "seven_segment.h"
 #include "status.h"
 #include "storage.h"
+#include "watchdog.h"
 
 /**
  * @brief Function for main application entry.
@@ -34,6 +35,7 @@
 int main(void)
 {
     ble_stack_init();
+    watchdog_init();
     dev_man_init();                 /**< Run before storage_init, since it also uses pstorage and will initialize it. */
     storage_init();
     status_init();
@@ -54,6 +56,7 @@ int main(void)
     while (true)
     {
         ble_stack_tasks();
+        watchdog_tasks();
         dev_man_tasks();
         storage_tasks();
         status_tasks();
