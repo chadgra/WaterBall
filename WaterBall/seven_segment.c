@@ -103,11 +103,11 @@ static const uint16_t alphafont_table[] =
     0x7D, // G
     0xF6, // H
     0x06, // I
-    0x1E, // J
+    0x0E, // J
     0x70, // K
     0x38, // L
     0x36, // M
-    0x36, // N
+    0x37, // N
     0x3F, // O
     0xF3, // P
     0x3F, // Q

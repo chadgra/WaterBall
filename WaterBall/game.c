@@ -334,13 +334,13 @@ static void game_print_end(uint32_t my_score, uint32_t their_score)
 {
     if (my_score >= their_score)
     {
-        seven_segment_set_char_digits(SCORE_ADDRESS, 0, "LOSE", COLON_TYPE_NONE);
-        seven_segment_set_char_digits(TIME_ADDRESS, 0, "LOSE", COLON_TYPE_NONE);
+        seven_segment_set_char_digits(SCORE_ADDRESS, 0, "FAIL", COLON_TYPE_NONE);
+        seven_segment_set_char_digits(TIME_ADDRESS, 0, "FAIL", COLON_TYPE_NONE);
     }
     else
     {
-        seven_segment_set_char_digits(SCORE_ADDRESS, 0, "WJin", COLON_TYPE_NONE);
-        seven_segment_set_char_digits(TIME_ADDRESS, 0, "WJin", COLON_TYPE_NONE);
+        seven_segment_set_char_digits(SCORE_ADDRESS, 0, "PASS", COLON_TYPE_NONE);
+        seven_segment_set_char_digits(TIME_ADDRESS, 0, "PASS", COLON_TYPE_NONE);
     }
 }
 
